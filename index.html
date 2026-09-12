@@ -1424,7 +1424,13 @@ Come per le serie: se $0\le f(x)\le g(x)$, la convergenza di $\int g$ trascina q
 <option value="der">Derivate</option>
 <option value="seg">Segno di una parabola</option>
 <option value="ser">Carattere di una serie</option>
-<option value="int">Integrali immediati</option>
+<option value="int">Integrali</option>
+<option value="studio">Studio di funzione (a pezzi)</option>
+</select></label>
+<label>Difficoltà <select id="gen-lvl">
+<option value="1">Base</option>
+<option value="2">Media</option>
+<option value="3">Avanzata</option>
 </select></label>
 <button id="gen-new">Nuovo esercizio</button>
 </div>
@@ -1861,54 +1867,101 @@ function loadState(){if(!storeOK)return;try{const raw=localStorage.getItem('adz-
 function saveState(){if(!storeOK)return;try{localStorage.setItem('adz-state',JSON.stringify(ST));}catch(e){}}
 function MJ(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false});}
 const CAPNAMES={insiemi:'Insiemi e relazioni',complessi:'Numeri complessi',equazioni:'Equazioni e disequazioni',funzioni:'Funzioni',induzione:'Induzione',vettori:'Vettori e matrici',geometria:'Rette e piani',successioni:'Successioni',serie:'Serie',limiti:'Limiti',continuita:'Continuità',derivate:'Derivate',teoremi:'Teoremi e De l\'Hôpital',taylor:'Taylor',integrali:'Integrali',volumi:'Aree, volumi e impropri',studio:'Studio di funzione',formulario:'Formulario',esame:'Simulazione d\'esame'};
-const GENNAMES={lim:'Palestra: limiti notevoli',tay:'Palestra: limiti con Taylor',der:'Palestra: derivate',seg:'Palestra: segno parabola',ser:'Palestra: serie',int:'Palestra: integrali'};
+const GENNAMES={lim:'Palestra: limiti notevoli',tay:'Palestra: limiti con Taylor',der:'Palestra: derivate',seg:'Palestra: segno parabola',ser:'Palestra: serie',int:'Palestra: integrali',studio:'Palestra: studio di funzione'};
 loadState();
 
 // ================= GENERATORE =================
 (()=>{
 const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
 const rnz=(a,b)=>{let v=0;while(v===0)v=ri(a,b);return v;};
-const frac=(n,d)=>{const g=(a,b)=>b?g(b,a%b):Math.abs(a);const k=g(n,d);n/=k;d/=k;if(d<0){n=-n;d=-d;}return d===1?String(n):n+'/'+d;};
+const frac=(n,d)=>{const g=(a,b)=>b?g(b,a%b):Math.abs(a);const k=g(n,d)||1;n/=k;d/=k;if(d<0){n=-n;d=-d;}return d===1?String(n):n+'/'+d;};
+const pick=a=>a[Math.floor(Math.random()*a.length)];
 let cur=null;
-const T={
- lim(){const a=rnz(-5,5),b=rnz(2,6);const kind=ri(0,3);
-  if(kind===0)return{q:`$$\\lim_{x\\to0}\\frac{\\sin(${a}x)}{${b}x}$$`,ans:a/b,anstx:frac(a,b),sol:`Riconduco al limite notevole: $\\dfrac{\\sin(${a}x)}{${b}x}=\\dfrac{\\sin(${a}x)}{${a}x}\\cdot\\dfrac{${a}}{${b}}$. Il primo fattore tende a 1, quindi il limite è $\\dfrac{${a}}{${b}}=${frac(a,b)}$.`};
-  if(kind===1)return{q:`$$\\lim_{x\\to0}\\frac{e^{${a}x}-1}{${b}x}$$`,ans:a/b,anstx:frac(a,b),sol:`$\\dfrac{e^{${a}x}-1}{${b}x}=\\dfrac{e^{${a}x}-1}{${a}x}\\cdot\\dfrac{${a}}{${b}}\\to1\\cdot\\dfrac{${a}}{${b}}=${frac(a,b)}$.`};
-  if(kind===2)return{q:`$$\\lim_{x\\to0}\\frac{\\ln(1+${a}x)}{${b}x}$$`,ans:a/b,anstx:frac(a,b),sol:`$\\dfrac{\\ln(1+${a}x)}{${a}x}\\cdot\\dfrac{${a}}{${b}}\\to\\dfrac{${a}}{${b}}=${frac(a,b)}$.`};
-  const c=ri(2,4);return{q:`$$\\lim_{x\\to0}\\frac{1-\\cos(${c}x)}{x^2}$$`,ans:c*c/2,anstx:frac(c*c,2),sol:`Uso $\\lim\\frac{1-\\cos t}{t^2}=\\frac12$ con $t=${c}x$: $\\dfrac{1-\\cos(${c}x)}{(${c}x)^2}\\cdot ${c*c}\\to\\dfrac12\\cdot${c*c}=${frac(c*c,2)}$.`};},
- tay(){const a=rnz(-3,3);const kind=ri(0,2);
-  if(kind===0)return{q:`$$\\lim_{x\\to0}\\frac{\\sin(${a}x)-${a}x}{x^3}$$`,ans:-a*a*a/6,anstx:frac(-a*a*a,6),sol:`$\\sin t=t-\\frac{t^3}{6}+o(t^3)$ con $t=${a}x$: numeratore $=-\\dfrac{(${a}x)^3}{6}+o(x^3)=-\\dfrac{${a*a*a}}{6}x^3+o(x^3)$. Limite: $${frac(-a*a*a,6)}$.`};
-  if(kind===1)return{q:`$$\\lim_{x\\to0}\\frac{e^{${a}x}-1-${a}x}{x^2}$$`,ans:a*a/2,anstx:frac(a*a,2),sol:`$e^t=1+t+\\frac{t^2}2+o(t^2)$ con $t=${a}x$: numeratore $=\\dfrac{${a*a}x^2}{2}+o(x^2)$. Limite: $${frac(a*a,2)}$.`};
-  return{q:`$$\\lim_{x\\to0}\\frac{\\ln(1+${a}x)-${a}x}{x^2}$$`,ans:-a*a/2,anstx:frac(-a*a,2),sol:`$\\ln(1+t)=t-\\frac{t^2}2+o(t^2)$ con $t=${a}x$: numeratore $=-\\dfrac{${a*a}x^2}{2}+o(x^2)$. Limite: $${frac(-a*a,2)}$.`};},
- der(){const a=rnz(2,5);const kind=ri(0,3);let q,ok,ds,sol;
-  if(kind===0){q=`$\\big(\\sin(${a}x)\\big)'$`;ok=`$${a}\\cos(${a}x)$`;ds=[`$\\cos(${a}x)$`,`$-${a}\\cos(${a}x)$`,`$${a}\\sin(${a}x)$`];sol=`Catena: derivata esterna $\\cos$ lasciando dentro $${a}x$, per la derivata di dentro, che è ${a}.`;}
-  else if(kind===1){q=`$\\big(e^{${a}x}\\big)'$`;ok=`$${a}e^{${a}x}$`;ds=[`$e^{${a}x}$`,`$${a}xe^{${a}x-1}$`,`$e^{${a}}$`];sol=`Catena: $e^{\\text{dentro}}$ resta uguale, moltiplicato per la derivata di $${a}x$, cioè ${a}.`;}
-  else if(kind===2){const n=ri(3,6);q=`$\\big(${a}x^{${n}}\\big)'$`;ok=`$${a*n}x^{${n-1}}$`;ds=[`$${a}x^{${n-1}}$`,`$${a*n}x^{${n}}$`,`$${a*n}x^{${n+1}}$`];sol=`Potenza: scende l'esponente e cala di uno: $${a}\\cdot${n}\\,x^{${n-1}}$.`;}
-  else{q=`$\\big(x\\,e^{${a}x}\\big)'$`;ok=`$e^{${a}x}(1+${a}x)$`;ds=[`$${a}e^{${a}x}$`,`$e^{${a}x}$`,`$e^{${a}x}(1+x)$`];sol=`Prodotto: $1\\cdot e^{${a}x}+x\\cdot ${a}e^{${a}x}=e^{${a}x}(1+${a}x)$.`;}
-  return{q:'Calcola '+q,mc:[ok,...ds],sol};},
- seg(){let p=ri(-4,3),qq=p+ri(1,4);const b=-(p+qq),c=p*qq;const bs=b===0?'':(b>0?`+${b===1?'':b}x`:`${b===-1?'-':b}x`);const cs=c===0?'':(c>0?`+${c}`:String(c));
-  const q=`Per quali $x$ vale $\\;x^2${bs}${cs}>0$?`;
-  const ok=`$x<${p}$ oppure $x>${qq}$`;const ds=[`$${p}<x<${qq}$`,`$x>${qq}$`,`per ogni $x$`];
-  return{q,mc:[ok,...ds],sol:`Radici: $x^2${bs}${cs}=(x-(${p}))(x-(${qq}))$, cioè $x=${p}$ e $x=${qq}$. Parabola a U (coefficiente di $x^2$ positivo): positiva <b>fuori</b> dalle radici.`};},
- ser(){const kind=ri(0,3);
-  if(kind===0){const al=[['1/2',0.5],['2',2],['3/2',1.5],['1',1],['3',3]][ri(0,4)];const conv=al[1]>1;
-   return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}\\frac{1}{n^{${al[0]}}}$`,mc:conv?['converge','diverge']:['diverge','converge'],sol:`Armonica generalizzata con $\\alpha=${al[0]}$: converge $\\iff\\alpha>1$. Qui ${conv?'$\\alpha>1$: <b>converge</b>':'$\\alpha\\le1$: <b>diverge</b>'}.`};}
-  if(kind===1){const a=ri(1,5),k=ri(3,5);const conv=k-1>1;
-   return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}\\frac{n+${a}}{n^{${k}}+${a}n}$`,mc:conv?['converge','diverge']:['diverge','converge'],sol:`Termini dominanti: $\\dfrac{n}{n^{${k}}}=\\dfrac1{n^{${k-1}}}$. Confronto asintotico con $\\alpha=${k-1}>1$: <b>converge</b>.`};}
-  if(kind===2){const c=ri(2,9);
-   return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}\\frac{${c}^n}{n!}$`,mc:['converge','diverge'],sol:`Criterio del rapporto: $\\dfrac{a_{n+1}}{a_n}=\\dfrac{${c}}{n+1}\\to0<1$: <b>converge</b> (il fattoriale batte l'esponenziale).`};}
-  const c=ri(2,9);return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}\\frac{n!}{${c}^n}$`,mc:['diverge','converge'],sol:`Rapporto: $\\dfrac{a_{n+1}}{a_n}=\\dfrac{n+1}{${c}}\\to+\\infty>1$: <b>diverge</b>.`};},
- int(){const a=rnz(2,5);const kind=ri(0,3);let q,ok,ds,sol;
-  if(kind===0){const n=ri(2,5);q=`$\\displaystyle\\int ${a}x^{${n}}\\,dx$`;ok=`$\\dfrac{${a}x^{${n+1}}}{${n+1}}+c$`;ds=[`$${a*n}x^{${n-1}}+c$`,`$\\dfrac{x^{${n+1}}}{${n+1}}+c$`,`$${a}x^{${n+1}}+c$`];sol=`Potenza al contrario: sale l'esponente e si divide: $${a}\\dfrac{x^{${n+1}}}{${n+1}}+c$. Verifica derivando.`;}
-  else if(kind===1){q=`$\\displaystyle\\int \\cos(${a}x)\\,dx$`;ok=`$\\dfrac{\\sin(${a}x)}{${a}}+c$`;ds=[`$${a}\\sin(${a}x)+c$`,`$-\\dfrac{\\sin(${a}x)}{${a}}+c$`,`$\\sin(${a}x)+c$`];sol=`Sostituzione $t=${a}x$: serve $\\frac1{${a}}$ per compensare. Verifica: derivando esce $\\cos(${a}x)$.`;}
-  else if(kind===2){q=`$\\displaystyle\\int e^{${a}x}\\,dx$`;ok=`$\\dfrac{e^{${a}x}}{${a}}+c$`;ds=[`$${a}e^{${a}x}+c$`,`$e^{${a}x}+c$`,`$\\dfrac{e^{x}}{${a}}+c$`];sol=`Come sopra: $\\dfrac{e^{${a}x}}{${a}}+c$, perché derivando la catena porta giù un ${a}.`;}
-  else{q=`$\\displaystyle\\int \\dfrac{${a}}{x}\\,dx$`;ok=`$${a}\\ln|x|+c$`;ds=[`$-\\dfrac{${a}}{x^2}+c$`,`$\\ln|${a}x|+c$ e basta`,`$\\dfrac{${a}}{\\ln x}+c$`];sol=`$\\int\\frac1x=\\ln|x|+c$, la costante ${a} esce dall'integrale.`;}
-  return{q:'Calcola '+q,mc:[ok,...ds],sol};}
+// Ogni voce: livello 1 (base), 2 (media), 3 (avanzata). Un esercizio è {q, ans+anstx (numerico) oppure mc:[corretta,...distrattori], sol}
+const G={
+lim:{
+1:[()=>{const a=rnz(-5,5),b=ri(2,6);return{q:`$$\\lim_{x\\to0}\\frac{\\sin(${a}x)}{${b}x}$$`,ans:a/b,anstx:frac(a,b),sol:`$\\dfrac{\\sin(${a}x)}{${b}x}=\\dfrac{\\sin(${a}x)}{${a}x}\\cdot\\dfrac{${a}}{${b}}\\to1\\cdot\\dfrac{${a}}{${b}}=${frac(a,b)}$.`};},
+   ()=>{const a=rnz(-5,5),b=ri(2,6);return{q:`$$\\lim_{x\\to0}\\frac{e^{${a}x}-1}{${b}x}$$`,ans:a/b,anstx:frac(a,b),sol:`$\\dfrac{e^{${a}x}-1}{${a}x}\\cdot\\dfrac{${a}}{${b}}\\to\\dfrac{${a}}{${b}}=${frac(a,b)}$.`};},
+   ()=>{const a=rnz(-5,5),b=ri(2,6);return{q:`$$\\lim_{x\\to0}\\frac{\\ln(1+${a}x)}{${b}x}$$`,ans:a/b,anstx:frac(a,b),sol:`$\\dfrac{\\ln(1+${a}x)}{${a}x}\\cdot\\dfrac{${a}}{${b}}\\to\\dfrac{${a}}{${b}}=${frac(a,b)}$.`};},
+   ()=>{const c=ri(2,4);return{q:`$$\\lim_{x\\to0}\\frac{1-\\cos(${c}x)}{x^2}$$`,ans:c*c/2,anstx:frac(c*c,2),sol:`$\\lim\\frac{1-\\cos t}{t^2}=\\frac12$ con $t=${c}x$: $\\dfrac{1-\\cos(${c}x)}{(${c}x)^2}\\cdot ${c*c}\\to\\dfrac{${c*c}}{2}=${frac(c*c,2)}$.`};}],
+2:[()=>{const a=rnz(2,6),b=rnz(2,6);return{q:`$$\\lim_{x\\to0}\\frac{\\sin(${a}x)}{\\sin(${b}x)}$$`,ans:a/b,anstx:frac(a,b),sol:`Divido e moltiplico: $\\dfrac{\\sin(${a}x)}{${a}x}\\cdot\\dfrac{${b}x}{\\sin(${b}x)}\\cdot\\dfrac{${a}}{${b}}\\to1\\cdot1\\cdot\\dfrac{${a}}{${b}}=${frac(a,b)}$.`};},
+   ()=>{const a=rnz(2,6),b=ri(2,6);return{q:`$$\\lim_{x\\to0}\\frac{\\tan(${a}x)}{${b}x}$$`,ans:a/b,anstx:frac(a,b),sol:`$\\tan t\\sim t$ per $t\\to0$ (perché $\\tan t=\\frac{\\sin t}{\\cos t}$ e $\\cos t\\to1$): il limite è $\\dfrac{${a}}{${b}}=${frac(a,b)}$.`};},
+   ()=>{const a=rnz(2,6),b=rnz(2,6);return{q:`$$\\lim_{x\\to0}\\frac{\\ln(1+${a}x)}{\\sin(${b}x)}$$`,ans:a/b,anstx:frac(a,b),sol:`Sopra $\\ln(1+${a}x)\\sim ${a}x$, sotto $\\sin(${b}x)\\sim ${b}x$: rapporto $\\to\\dfrac{${a}}{${b}}=${frac(a,b)}$.`};},
+   ()=>{const a=ri(2,4),b=ri(2,5);return{q:`$$\\lim_{x\\to0}\\frac{1-\\cos(${a}x)}{${b}x^2}$$`,ans:a*a/(2*b),anstx:frac(a*a,2*b),sol:`$1-\\cos(${a}x)\\sim\\dfrac{(${a}x)^2}{2}=\\dfrac{${a*a}}{2}x^2$: il limite è $\\dfrac{${a*a}}{2\\cdot${b}}=${frac(a*a,2*b)}$.`};}],
+3:[()=>{const a=rnz(-3,3),b=rnz(2,4);return{q:`Calcola $\\displaystyle\\lim_{x\\to0}\\big(1+${a}x\\big)^{${b}/x}$`,mc:[`$e^{${a*b}}$`,`$e^{${frac(a,b)}}$`,`$1$`,`$${a*b}$`],sol:`Forma $1^\\infty$. Scrivo $\\big((1+${a}x)^{\\frac1{${a}x}}\\big)^{${a*b}}$: la base tende a $e$, quindi il limite è $e^{${a*b}}$.`};},
+   ()=>{const a=ri(2,8);return{q:`$$\\lim_{x\\to+\\infty}\\Big(\\sqrt{x^2+${a}x}-x\\Big)$$`,ans:a/2,anstx:frac(a,2),sol:`Razionalizzo: $\\dfrac{(x^2+${a}x)-x^2}{\\sqrt{x^2+${a}x}+x}=\\dfrac{${a}x}{\\sqrt{x^2+${a}x}+x}$. Raccolgo $x$: $\\dfrac{${a}}{\\sqrt{1+${a}/x}+1}\\to\\dfrac{${a}}{2}=${frac(a,2)}$.`};},
+   ()=>{const a=ri(2,4),b=rnz(2,5);return{q:`$$\\lim_{x\\to0}\\frac{1-\\cos(${a}x)}{x\\,\\sin(${b}x)}$$`,ans:a*a/(2*b),anstx:frac(a*a,2*b),sol:`Sopra $\\sim\\frac{${a*a}}{2}x^2$, sotto $x\\cdot ${b}x=${b}x^2$: rapporto $\\to\\dfrac{${a*a}}{2\\cdot${b}}=${frac(a*a,2*b)}$.`};}]},
+tay:{
+1:[()=>{const a=rnz(-3,3);return{q:`$$\\lim_{x\\to0}\\frac{\\sin(${a}x)-${a}x}{x^3}$$`,ans:-a*a*a/6,anstx:frac(-a*a*a,6),sol:`$\\sin t=t-\\frac{t^3}{6}+o(t^3)$ con $t=${a}x$: numeratore $=-\\dfrac{${a*a*a}}{6}x^3+o(x^3)$. Limite $=${frac(-a*a*a,6)}$.`};},
+   ()=>{const a=rnz(-3,3);return{q:`$$\\lim_{x\\to0}\\frac{e^{${a}x}-1-${a}x}{x^2}$$`,ans:a*a/2,anstx:frac(a*a,2),sol:`$e^t=1+t+\\frac{t^2}2+o(t^2)$: numeratore $=\\dfrac{${a*a}}{2}x^2+o(x^2)$. Limite $=${frac(a*a,2)}$.`};},
+   ()=>{const a=rnz(-3,3);return{q:`$$\\lim_{x\\to0}\\frac{\\ln(1+${a}x)-${a}x}{x^2}$$`,ans:-a*a/2,anstx:frac(-a*a,2),sol:`$\\ln(1+t)=t-\\frac{t^2}2+o(t^2)$: numeratore $=-\\dfrac{${a*a}}{2}x^2+o(x^2)$. Limite $=${frac(-a*a,2)}$.`};}],
+2:[()=>{const a=rnz(-3,3),b=ri(2,4);return{q:`$$\\lim_{x\\to0}\\frac{e^{${a}x^2}-\\cos(${b}x)}{x^2}$$`,ans:a+b*b/2,anstx:frac(2*a+b*b,2),sol:`$e^{${a}x^2}=1+${a}x^2+o(x^2)$ e $\\cos(${b}x)=1-\\dfrac{${b*b}}{2}x^2+o(x^2)$. Numeratore: $\\big(${a}+\\dfrac{${b*b}}{2}\\big)x^2+o(x^2)$. Limite $=${frac(2*a+b*b,2)}$.`};},
+   ()=>{let a=ri(2,4),b=a;while(b===a)b=ri(2,5);return{q:`$$\\lim_{x\\to0}\\frac{\\cos(${a}x)-\\cos(${b}x)}{x^2}$$`,ans:(b*b-a*a)/2,anstx:frac(b*b-a*a,2),sol:`$\\cos(${a}x)=1-\\frac{${a*a}}{2}x^2+o(x^2)$, $\\cos(${b}x)=1-\\frac{${b*b}}{2}x^2+o(x^2)$. Differenza: $\\dfrac{${b*b}-${a*a}}{2}x^2+o(x^2)$. Limite $=${frac(b*b-a*a,2)}$.`};},
+   ()=>{const a=rnz(2,4);return{q:`$$\\lim_{x\\to0}\\frac{\\ln(1+${a}x)-\\sin(${a}x)}{x^2}$$`,ans:-a*a/2,anstx:frac(-a*a,2),sol:`$\\ln(1+${a}x)=${a}x-\\frac{${a*a}}{2}x^2+o(x^2)$, mentre $\\sin(${a}x)=${a}x+o(x^2)$ (il termine dopo è $x^3$). I termini in $x$ si cancellano: resta $-\\dfrac{${a*a}}{2}x^2$. Limite $=${frac(-a*a,2)}$.`};}],
+3:[()=>{const a=rnz(-3,3);return{q:`$$\\lim_{x\\to0}\\frac{\\tan(${a}x)-${a}x}{x^3}$$`,ans:a*a*a/3,anstx:frac(a*a*a,3),sol:`$\\tan t=t+\\frac{t^3}{3}+o(t^3)$: numeratore $=\\dfrac{${a*a*a}}{3}x^3+o(x^3)$. Limite $=${frac(a*a*a,3)}$.`};},
+   ()=>{const a=rnz(2,3);return{q:`$$\\lim_{x\\to0}\\frac{\\sin(${a}x)-\\tan(${a}x)}{x^3}$$`,ans:-a*a*a/2,anstx:frac(-a*a*a,2),sol:`$\\sin(${a}x)=${a}x-\\frac{${a*a*a}}{6}x^3+o(x^3)$ e $\\tan(${a}x)=${a}x+\\frac{${a*a*a}}{3}x^3+o(x^3)$. Differenza: $\\big(-\\frac{${a*a*a}}{6}-\\frac{${a*a*a}}{3}\\big)x^3=-\\dfrac{${a*a*a}}{2}x^3$. Limite $=${frac(-a*a*a,2)}$.`};},
+   ()=>{const a=rnz(-3,3);return{q:`$$\\lim_{x\\to0}\\frac{\\arctan(${a}x)-${a}x}{x^3}$$`,ans:-a*a*a/3,anstx:frac(-a*a*a,3),sol:`$\\arctan t=t-\\frac{t^3}{3}+o(t^3)$: numeratore $=-\\dfrac{${a*a*a}}{3}x^3+o(x^3)$. Limite $=${frac(-a*a*a,3)}$.`};},
+   ()=>{const a=rnz(-3,3);return{q:`$$\\lim_{x\\to0}\\frac{e^{${a}x}-1-${a}x-\\frac{${a*a}}{2}x^2}{x^3}$$`,ans:a*a*a/6,anstx:frac(a*a*a,6),sol:`Sviluppo $e^{${a}x}$ fino al terzo ordine: il primo termine non cancellato è $\\dfrac{(${a}x)^3}{6}$. Limite $=${frac(a*a*a,6)}$.`};}]},
+der:{
+1:[()=>{const a=ri(2,5);return{q:`Calcola $\\big(\\sin(${a}x)\\big)'$`,mc:[`$${a}\\cos(${a}x)$`,`$\\cos(${a}x)$`,`$-${a}\\cos(${a}x)$`,`$${a}\\sin(${a}x)$`],sol:`Catena: derivata esterna $\\cos$ lasciando dentro $${a}x$, per la derivata di dentro, ${a}.`};},
+   ()=>{const a=ri(2,5);return{q:`Calcola $\\big(e^{${a}x}\\big)'$`,mc:[`$${a}e^{${a}x}$`,`$e^{${a}x}$`,`$${a}xe^{${a}x-1}$`,`$e^{${a}}$`],sol:`Catena: $e^{\\text{dentro}}$ resta, per la derivata di $${a}x$, cioè ${a}.`};},
+   ()=>{const a=ri(2,5),n=ri(3,6);return{q:`Calcola $\\big(${a}x^{${n}}\\big)'$`,mc:[`$${a*n}x^{${n-1}}$`,`$${a}x^{${n-1}}$`,`$${a*n}x^{${n}}$`,`$${a*n}x^{${n+1}}$`],sol:`Potenza: l'esponente scende davanti e cala di uno: $${a}\\cdot${n}\\,x^{${n-1}}$.`};},
+   ()=>{const a=ri(2,4);return{q:`Calcola $\\big(x\\,e^{${a}x}\\big)'$`,mc:[`$e^{${a}x}(1+${a}x)$`,`$${a}e^{${a}x}$`,`$e^{${a}x}$`,`$e^{${a}x}(1+x)$`],sol:`Prodotto: $1\\cdot e^{${a}x}+x\\cdot ${a}e^{${a}x}=e^{${a}x}(1+${a}x)$.`};}],
+2:[()=>{const a=ri(1,5);return{q:`Calcola $\\big(\\ln(x^2+${a})\\big)'$`,mc:[`$\\dfrac{2x}{x^2+${a}}$`,`$\\dfrac{1}{x^2+${a}}$`,`$2x\\ln(x^2+${a})$`,`$\\dfrac{x}{x^2+${a}}$`],sol:`Catena: $\\dfrac1{\\text{dentro}}$ per la derivata di dentro, $2x$.`};},
+   ()=>{const a=ri(2,5);return{q:`Calcola $\\Big(\\dfrac{x}{x+${a}}\\Big)'$`,mc:[`$\\dfrac{${a}}{(x+${a})^2}$`,`$\\dfrac{1}{(x+${a})^2}$`,`$-\\dfrac{${a}}{(x+${a})^2}$`,`$1$`],sol:`Quoziente: $\\dfrac{1\\cdot(x+${a})-x\\cdot1}{(x+${a})^2}=\\dfrac{${a}}{(x+${a})^2}$.`};},
+   ()=>{const a=ri(2,4);return{q:`Calcola $\\big(e^{${a}x^2}\\big)'$`,mc:[`$${2*a}x\\,e^{${a}x^2}$`,`$e^{${a}x^2}$`,`$${a}x\\,e^{${a}x^2}$`,`$${2*a}x\\,e^{${2*a}x}$`],sol:`Catena: $e^{\\text{dentro}}$ per la derivata di $${a}x^2$, cioè $${2*a}x$.`};}],
+3:[()=>{const n=ri(2,4);return{q:`Calcola $\\big(x^{${n}}\\ln x\\big)'$`,mc:[`$x^{${n-1}}\\big(${n}\\ln x+1\\big)$`,`$${n}x^{${n-1}}\\ln x$`,`$x^{${n-1}}$`,`$${n}x^{${n-1}}\\big(\\ln x+1\\big)$`],sol:`Prodotto: $${n}x^{${n-1}}\\ln x+x^{${n}}\\cdot\\dfrac1x=x^{${n-1}}\\big(${n}\\ln x+1\\big)$.`};},
+   ()=>{const a=ri(2,4);return{q:`Calcola $\\big(\\sin^2(${a}x)\\big)'$`,mc:[`$${a}\\sin(${2*a}x)$`,`$2\\sin(${a}x)$`,`$${a}\\cos(${2*a}x)$`,`$-${a}\\sin(${2*a}x)$`],sol:`Catena due volte: $2\\sin(${a}x)\\cdot\\cos(${a}x)\\cdot ${a}$, e con la duplicazione $2\\sin\\theta\\cos\\theta=\\sin(2\\theta)$ diventa $${a}\\sin(${2*a}x)$.`};},
+   ()=>{const a=ri(2,4);return{q:`Calcola $\\big(\\ln(\\cos(${a}x))\\big)'$`,mc:[`$-${a}\\tan(${a}x)$`,`$${a}\\tan(${a}x)$`,`$-\\dfrac{${a}}{\\cos(${a}x)}$`,`$\\dfrac1{\\cos(${a}x)}$`],sol:`Catena: $\\dfrac1{\\cos(${a}x)}\\cdot\\big(-\\sin(${a}x)\\big)\\cdot ${a}=-${a}\\tan(${a}x)$.`};}]},
+seg:{
+1:[()=>{let p=ri(-4,3),qq=p+ri(1,4);const b=-(p+qq),c=p*qq;const bs=b===0?'':(b>0?`+${b===1?'':b}x`:(b===-1?'-x':`${b}x`));const cs=c===0?'':(c>0?`+${c}`:String(c));
+   return{q:`Per quali $x$ vale $\\;x^2${bs}${cs}>0$?`,mc:[`$x<${p}$ oppure $x>${qq}$`,`$${p}<x<${qq}$`,`$x>${qq}$`,`per ogni $x$`],sol:`Radici $x=${p}$ e $x=${qq}$. Parabola a U: positiva <b>fuori</b> dalle radici.`};}],
+2:[()=>{let p=ri(-4,2),qq=p+ri(1,4);
+   return{q:`Per quali $x$ vale $\\;\\dfrac{x-(${p})}{x-(${qq})}\\ge0$?`,mc:[`$x\\le${p}$ oppure $x>${qq}$`,`$${p}\\le x<${qq}$`,`$x\\le${p}$ oppure $x\\ge${qq}$`,`$${p}<x<${qq}$`],sol:`Tabella dei segni: numeratore $\\ge0$ per $x\\ge${p}$, denominatore $>0$ per $x>${qq}$. Concordi (rapporto $\\ge0$) fuori dall'intervallo: $x\\le${p}$ (incluso: zero del numeratore) oppure $x>${qq}$ (escluso: denominatore).`};}],
+3:[()=>{const a=rnz(-3,3),b=ri(1,4);
+   return{q:`Per quali $x$ vale $\\;|x-(${a})|<${b}$?`,mc:[`$${a-b}<x<${a+b}$`,`$x<${a-b}$ oppure $x>${a+b}$`,`$x<${a+b}$`,`$-${b}<x<${b}$`],sol:`$|x-c|<r$ significa "distanza da $c$ minore di $r$": $c-r<x<c+r$, cioè $${a-b}<x<${a+b}$.`};},
+   ()=>{const a=rnz(-3,3),b=ri(1,4);
+   return{q:`Per quali $x$ vale $\\;|x-(${a})|>${b}$?`,mc:[`$x<${a-b}$ oppure $x>${a+b}$`,`$${a-b}<x<${a+b}$`,`$x>${a+b}$`,`per nessun $x$`],sol:`Distanza da $${a}$ maggiore di $${b}$: si sta fuori dall'intervallo, $x<${a-b}$ oppure $x>${a+b}$.`};}]},
+ser:{
+1:[()=>{const al=pick([['1/2',0.5],['2',2],['3/2',1.5],['1',1],['3',3]]);const conv=al[1]>1;
+   return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}\\frac{1}{n^{${al[0]}}}$`,mc:conv?['converge','diverge']:['diverge','converge'],sol:`Armonica generalizzata, $\\alpha=${al[0]}$: converge $\\iff\\alpha>1$. Qui <b>${conv?'converge':'diverge'}</b>.`};},
+   ()=>{const a=ri(1,5),k=ri(3,5);return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}\\frac{n+${a}}{n^{${k}}+${a}n}$`,mc:['converge','diverge'],sol:`Termini dominanti: $\\frac{n}{n^{${k}}}=\\frac1{n^{${k-1}}}$, con $\\alpha=${k-1}>1$: <b>converge</b> per confronto asintotico.`};},
+   ()=>{const c=ri(2,9);return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}\\frac{${c}^n}{n!}$`,mc:['converge','diverge'],sol:`Rapporto: $\\frac{${c}}{n+1}\\to0<1$: <b>converge</b>.`};},
+   ()=>{const c=ri(2,9);return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}\\frac{n!}{${c}^n}$`,mc:['diverge','converge'],sol:`Rapporto: $\\frac{n+1}{${c}}\\to+\\infty>1$: <b>diverge</b>.`};}],
+2:[()=>{const a=ri(1,3),b=ri(2,4);return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}\\frac{n^{${a}}}{${b}^n}$`,mc:['converge','diverge'],sol:`Rapporto: $\\dfrac{(n+1)^{${a}}}{n^{${a}}}\\cdot\\dfrac1{${b}}\\to\\dfrac1{${b}}<1$: <b>converge</b>. (L'esponenziale al denominatore vince su qualunque potenza.)`};},
+   ()=>{const a=ri(1,5),b=ri(1,5);return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}\\frac{n+${a}}{n^2+${b}}$`,mc:['diverge','converge'],sol:`Termini dominanti: $\\frac{n}{n^2}=\\frac1n$: si comporta come l'armonica. <b>Diverge</b> per confronto asintotico.`};},
+   ()=>{const k=pick([1,3]);const conv=k===3;return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=2}^{\\infty}\\frac{\\ln n}{n^{${k}}}$`,mc:conv?['converge','diverge']:['diverge','converge'],sol:conv?`$\\ln n$ cresce meno di qualsiasi potenza: $\\frac{\\ln n}{n^3}\\le\\frac{n^{1/2}}{n^3}=\\frac1{n^{5/2}}$ (per $n$ grande), e $\\alpha=\\frac52>1$: <b>converge</b> per confronto.`:`$\\frac{\\ln n}{n}\\ge\\frac1n$ per $n\\ge3$: maggiore di un divergente ⇒ <b>diverge</b>.`};}],
+3:[()=>{let a=ri(2,9),b=ri(2,9);while(a===b)b=ri(2,9);const conv=a<b;return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}\\Big(\\frac{${a}}{${b}}\\Big)^n$`,mc:conv?['converge','diverge']:['diverge','converge'],sol:`Geometrica di ragione $q=\\frac{${a}}{${b}}$: converge $\\iff|q|<1$. Qui $q${conv?'<':'>'}1$: <b>${conv?'converge, con somma $\\frac{q}{1-q}$ (parte da $n=1$)':'diverge'}</b>.`};},
+   ()=>{const a=ri(1,5);return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}(-1)^n\\,\\frac{n}{n+${a}}$`,mc:['diverge (indeterminata)','converge per Leibniz'],sol:`Condizione necessaria: il termine generale deve tendere a 0, ma $\\frac{n}{n+${a}}\\to1$. Leibniz <b>non si applica</b> ($b_n\\not\\to0$): la serie <b>non converge</b>.`};},
+   ()=>{const al=pick(['1/2','1','2']);return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}\\frac{(-1)^{n+1}}{n^{${al}}}$`,mc:['converge (Leibniz)','diverge'],sol:`$b_n=\\frac1{n^{${al}}}$ è positiva, decrescente e tende a 0: <b>converge per Leibniz</b>. (Con $\\alpha=${al}\\le1$ converge <em>solo</em> grazie ai segni alterni: senza di essi divergerebbe.)`};}]},
+int:{
+1:[()=>{const a=ri(2,5),n=ri(2,5);return{q:`Calcola $\\displaystyle\\int ${a}x^{${n}}\\,dx$`,mc:[`$\\dfrac{${a}x^{${n+1}}}{${n+1}}+c$`,`$${a*n}x^{${n-1}}+c$`,`$\\dfrac{x^{${n+1}}}{${n+1}}+c$`,`$${a}x^{${n+1}}+c$`],sol:`Potenza al contrario: sale l'esponente e si divide per il nuovo esponente.`};},
+   ()=>{const a=ri(2,5);return{q:`Calcola $\\displaystyle\\int \\cos(${a}x)\\,dx$`,mc:[`$\\dfrac{\\sin(${a}x)}{${a}}+c$`,`$${a}\\sin(${a}x)+c$`,`$-\\dfrac{\\sin(${a}x)}{${a}}+c$`,`$\\sin(${a}x)+c$`],sol:`Sostituzione $t=${a}x$: serve $\\frac1{${a}}$ per compensare. Verifica derivando.`};},
+   ()=>{const a=ri(2,5);return{q:`Calcola $\\displaystyle\\int e^{${a}x}\\,dx$`,mc:[`$\\dfrac{e^{${a}x}}{${a}}+c$`,`$${a}e^{${a}x}+c$`,`$e^{${a}x}+c$`,`$\\dfrac{e^{x}}{${a}}+c$`],sol:`Derivando $\\frac{e^{${a}x}}{${a}}$ la catena porta giù un ${a} che semplifica.`};},
+   ()=>{const a=ri(2,5);return{q:`Calcola $\\displaystyle\\int \\dfrac{${a}}{x}\\,dx$`,mc:[`$${a}\\ln|x|+c$`,`$-\\dfrac{${a}}{x^2}+c$`,`$\\dfrac{${a}}{\\ln x}+c$`,`$\\ln|${a}x|+c$ e nient'altro`],sol:`$\\int\\frac1x=\\ln|x|+c$; la costante ${a} esce dall'integrale.`};}],
+2:[()=>{const a=ri(2,4);return{q:`Calcola $\\displaystyle\\int x\\,e^{${a}x}\\,dx$`,mc:[`$\\dfrac{e^{${a}x}(${a}x-1)}{${a*a}}+c$`,`$\\dfrac{x\\,e^{${a}x}}{${a}}+c$`,`$\\dfrac{x^2}{2}e^{${a}x}+c$`,`$e^{${a}x}(x+1)+c$`],sol:`Per parti con $f=x$, $g'=e^{${a}x}$ ($g=\\frac{e^{${a}x}}{${a}}$): $\\dfrac{x e^{${a}x}}{${a}}-\\dfrac1{${a}}\\int e^{${a}x}dx=\\dfrac{x e^{${a}x}}{${a}}-\\dfrac{e^{${a}x}}{${a*a}}=\\dfrac{e^{${a}x}(${a}x-1)}{${a*a}}+c$.`};},
+   ()=>{const a=ri(1,6);return{q:`Calcola $\\displaystyle\\int \\dfrac{2x}{x^2+${a}}\\,dx$`,mc:[`$\\ln(x^2+${a})+c$`,`$2\\ln(x^2+${a})+c$`,`$\\dfrac1{x^2+${a}}+c$`,`$\\arctan\\dfrac{x}{${a}}+c$`],sol:`È lo schema $\\int\\frac{g'}{g}=\\ln|g|$: sopra c'è esattamente la derivata di $x^2+${a}$.`};},
+   ()=>{const a=ri(2,4);return{q:`Calcola $\\displaystyle\\int x\\cos(${a}x)\\,dx$`,mc:[`$\\dfrac{x\\sin(${a}x)}{${a}}+\\dfrac{\\cos(${a}x)}{${a*a}}+c$`,`$\\dfrac{x\\sin(${a}x)}{${a}}+c$`,`$-\\dfrac{x\\sin(${a}x)}{${a}}+c$`,`$\\dfrac{\\sin(${a}x)}{${a*a}}+c$`],sol:`Per parti, $f=x$, $g'=\\cos(${a}x)$: $\\dfrac{x\\sin(${a}x)}{${a}}-\\dfrac1{${a}}\\int\\sin(${a}x)dx=\\dfrac{x\\sin(${a}x)}{${a}}+\\dfrac{\\cos(${a}x)}{${a*a}}+c$.`};}],
+3:[()=>{const a=ri(1,4),b=ri(1,4);return{q:`Calcola $\\displaystyle\\int_0^1 \\big(${3*a}x^2+${b}\\big)\\,dx$`,ans:a+b,anstx:String(a+b),sol:`Primitiva: $${a}x^3+${b}x$. In $[0,1]$: $${a}+${b}=${a+b}$.`};},
+   ()=>{const a=ri(2,6);return{q:`Calcola $\\displaystyle\\int_1^{e} \\dfrac{${a}}{x}\\,dx$`,ans:a,anstx:String(a),sol:`$\\big[${a}\\ln x\\big]_1^e=${a}\\cdot1-${a}\\cdot0=${a}$.`};},
+   ()=>{const a=ri(1,4);return{q:`Calcola $\\displaystyle\\int_0^{\\pi} ${a}\\sin x\\,dx$`,ans:2*a,anstx:String(2*a),sol:`$\\big[-${a}\\cos x\\big]_0^{\\pi}=-${a}(-1)+${a}(1)=${2*a}$.`};},
+   ()=>{const b=ri(2,3),a=ri(1,4);return{q:`Calcola $\\displaystyle\\int_0^{${b}} ${a}x\\,dx$`,ans:a*b*b/2,anstx:frac(a*b*b,2),sol:`$\\big[\\frac{${a}x^2}{2}\\big]_0^{${b}}=\\dfrac{${a}\\cdot${b*b}}{2}=${frac(a*b*b,2)}$.`};}]},
+studio:{
+1:[()=>{const b=rnz(-4,4),a=ri(1,5);return{q:`Sia $f(x)=\\dfrac{x^2+${a}}{x-(${b})}$. Qual è l'asintoto verticale?`,mc:[`$x=${b}$`,`$x=${-b}$`,`$y=${b}$`,`non ce n'è`],sol:`Il denominatore si annulla in $x=${b}$ (e il numeratore lì vale $${b*b+a}\\ne0$): la funzione esplode. Asintoto verticale $x=${b}$.`};},
+   ()=>{const b=rnz(-4,4),a=ri(1,5);return{q:`Sia $f(x)=\\dfrac{x^2+${a}}{x-(${b})}$. Qual è il dominio?`,mc:[`$\\mathbb{R}\\setminus\\{${b}\\}$`,`$\\mathbb{R}$`,`$x>${b}$`,`$\\mathbb{R}\\setminus\\{${-b}\\}$`],sol:`Unica condizione: denominatore $\\ne0$, cioè $x\\ne${b}$.`};}],
+2:[()=>{const b=rnz(-3,3),a=ri(1,5);return{q:`Sia $f(x)=\\dfrac{x^2+${a}}{x-(${b})}$. Qual è l'asintoto obliquo?`,mc:[`$y=x+${b}$`.replace('+-','-'),`$y=x-${b}$`.replace('--','+'),`$y=x$`,`$y=${b}x$`],sol:`Divisione: $x^2+${a}=(x-(${b}))(x+${b})+${b*b+a}$, quindi $f(x)=x+${b}+\\dfrac{${b*b+a}}{x-(${b})}$. La frazione va a 0 all'infinito: asintoto $y=x+${b}$.`.replace('y=x+-','y=x-')};},
+   ()=>{const a=ri(1,4);return{q:`Sia $f(x)=x\\,e^{-${a}x}$. Cosa succede per $x\\to+\\infty$?`,mc:[`$f\\to0^+$: asintoto orizzontale $y=0$`,`$f\\to+\\infty$`,`$f\\to\\frac1{${a}}$`,`$f\\to-\\infty$`],sol:`Forma $\\infty\\cdot0$: riscrivo $\\dfrac{x}{e^{${a}x}}$ e per la gerarchia degli infiniti l'esponenziale vince: $f\\to0^+$.`};}],
+3:[()=>{const a=ri(1,4);return{q:`Sia $f(x)=x\\,e^{-${a}x}$. Dove ha il massimo?`,mc:[`$x=\\dfrac1{${a}}$`,`$x=${a}$`,`$x=0$`,`non ha massimo`],sol:`$f'=e^{-${a}x}(1-${a}x)$: positiva per $x<\\frac1{${a}}$, negativa dopo. Cresce poi decresce: massimo in $x=\\frac1{${a}}$, dove vale $\\frac1{${a}e}$.`};},
+   ()=>{const a=ri(1,3);return{q:`Sia $f(x)=x^3-${3*a*a}x$. Dove sono i punti stazionari, e di che tipo?`,mc:[`massimo in $x=-${a}$, minimo in $x=${a}$`,`minimo in $x=-${a}$, massimo in $x=${a}$`,`solo un flesso in $x=0$`,`massimo in $x=${a*a}$`],sol:`$f'=3x^2-${3*a*a}=3(x-${a})(x+${a})$: positiva fuori da $[-${a},${a}]$, negativa dentro. Cresce, decresce, cresce: massimo in $-${a}$ (vale $${2*a*a*a}$), minimo in $${a}$ (vale $-${2*a*a*a}$).`};},
+   ()=>{const b=rnz(-3,3),a=ri(1,5);const disc=b*b+a;return{q:`Sia $f(x)=\\dfrac{x^2+${a}}{x-(${b})}$, con $f'(x)=\\dfrac{x^2-${2*b}x-${a}}{(x-(${b}))^2}$`.replace('-'+String(2*b)+'x','-('+String(2*b)+')x')+`. Quanti punti stazionari ha?`,mc:[`due (le radici di $x^2-(${2*b})x-${a}=0$)`,`uno`,`nessuno`,`tre`],sol:`Il numeratore di $f'$ è una parabola con discriminante $\\Delta=${4*b*b}+${4*a}=${4*disc}>0$: due radici reali (nessuna coincide con $x=${b}$), quindi due punti stazionari: un massimo e un minimo.`};}]}
 };
 const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
 function stat(topic,ok){ST.gen[topic]=ST.gen[topic]||{ok:0,tot:0};ST.gen[topic].tot++;if(ok)ST.gen[topic].ok++;saveState();renderCount();renderDash();}
-function renderCount(){const t=$('gen-topic').value;const s=ST.gen[t];$('gen-count').textContent=s?`Statistiche su questo tipo: ${s.ok} corretti su ${s.tot} (${Math.round(s.ok/s.tot*100)}%).`:'Nessun tentativo ancora su questo tipo: i risultati vengono salvati nei tuoi progressi.';}
-function newEx(){const t=$('gen-topic').value;cur=T[t]();cur.topic=t;cur.done=false;
+function renderCount(){const t=$('gen-topic').value;const s=ST.gen[t];$('gen-count').textContent=(s?`Statistiche su questo tipo: ${s.ok} corretti su ${s.tot} (${Math.round(s.ok/s.tot*100)}%). `:'Nessun tentativo ancora su questo tipo. ')+'Gli esercizi sono generati con numeri casuali: livello Base = un solo passaggio, Media = due passaggi o un riconoscimento in più, Avanzata = stile seconda parte del compito.';}
+const clean=s=>s.replace(/\+-/g,'-').replace(/([^(])--/g,'$1+');
+const esc=s=>s.replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function newEx(){const t=$('gen-topic').value,lvl=+$('gen-lvl').value;const arr=G[t][lvl]||G[t][1];cur=pick(arr)();cur.topic=t;cur.done=false;
+ cur.q=clean(cur.q);cur.sol=clean(cur.sol);if(cur.mc)cur.mc=cur.mc.map(o=>esc(clean(o)));
  $('gen-q').innerHTML=cur.q;$('gen-fb').innerHTML='';$('gen-sol').innerHTML=cur.sol;$('gen-soldet').style.display='none';$('gen-soldet').removeAttribute('open');
  if(cur.mc){$('gen-numrow').style.display='none';const opts=cur.mc.map((o,i)=>({o,i}));shuffle(opts);
   $('gen-mc').innerHTML='<div class="opts">'+opts.map(x=>`<button data-i="${x.i}">${x.o}</button>`).join('')+'</div>';
@@ -1925,7 +1978,7 @@ on('gen-check','click',()=>{if(!cur||cur.mc||cur.done)return;const v=parseNum($(
  $('gen-fb').innerHTML=good?'<b style="color:#2E9E7C">Corretto.</b> Il valore è '+cur.anstx+'.':'<b style="color:#C0392B">Non corretto</b>: il risultato è <b>'+cur.anstx+'</b>.';
  $('gen-soldet').style.display='block';stat(cur.topic,good);});
 $('gen-ans').addEventListener('keydown',e=>{if(e.key==='Enter')$('gen-check').click();});
-on('gen-new','click',newEx);on('gen-topic','change',()=>{renderCount();newEx();});
+on('gen-new','click',newEx);on('gen-topic','change',()=>{renderCount();newEx();});on('gen-lvl','change',newEx);
 renderCount();newEx();
 })();
 
