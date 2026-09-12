@@ -140,6 +140,10 @@ details.sol .body{padding:2px 18px 14px;font-family:var(--serif);font-size:16.5p
     <li><a href="#integrali">Integrali</a></li>
     <li><a href="#volumi">Aree, volumi e impropri</a></li>
     <li><a href="#studio">Studio di funzione</a></li>
+    <li class="group">Allenamento</li>
+    <li><a href="#palestra">Palestra (esercizi infiniti)</a></li>
+    <li><a href="#ripasso">Flashcard</a></li>
+    <li><a href="#progressi">I miei progressi</a></li>
     <li class="group">Verso l'esame</li>
     <li><a href="#formulario">Formulario</a></li>
     <li><a href="#esame">Simulazione d'esame</a></li>
@@ -1404,6 +1408,85 @@ Come per le serie: se $0\le f(x)\le g(x)$, la convergenza di $\int g$ trascina q
 <div class="mark"><button data-cap="volumi">Ho capito questo capitolo</button></div>
 </div>
 </section>
+<!-- ============ PALESTRA ============ -->
+<section class="cap" id="palestra">
+<h2>Palestra</h2>
+<p class="lead">Esercizi generati con numeri sempre diversi: qui non puoi imparare le risposte a memoria, solo il metodo. Ogni tentativo viene registrato nei tuoi progressi.</p>
+<div class="pre"><b>Come funziona:</b> scegli un tipo di esercizio, rispondi, poi apri lo svolgimento. Le risposte numeriche accettano frazioni ("−1/6") o decimali ("−0,167").</div>
+
+<div class="widget">
+<div class="wt">Generatore di esercizi</div>
+<div class="wd" id="gen-count"></div>
+<div class="ctrl">
+<label>Tipo <select id="gen-topic">
+<option value="lim">Limiti notevoli</option>
+<option value="tay">Limiti con Taylor</option>
+<option value="der">Derivate</option>
+<option value="seg">Segno di una parabola</option>
+<option value="ser">Carattere di una serie</option>
+<option value="int">Integrali immediati</option>
+</select></label>
+<button id="gen-new">Nuovo esercizio</button>
+</div>
+<div id="gen-q" style="font-family:var(--serif);font-size:19px;margin:16px 0 10px"></div>
+<div class="ctrl" id="gen-numrow" style="display:none">
+<label>Risposta <input type="text" id="gen-ans" style="font:inherit;padding:6px 10px;border:1px solid var(--rule);border-radius:6px;width:110px"></label>
+<button id="gen-check">Verifica</button>
+</div>
+<div id="gen-mc" class="q" style="margin:0"></div>
+<div id="gen-fb" class="readout"></div>
+<details class="sol" id="gen-soldet" style="display:none"><summary>Mostra svolgimento</summary><div class="body" id="gen-sol"></div></details>
+</div>
+</section>
+
+<!-- ============ FLASHCARD ============ -->
+<section class="cap" id="ripasso">
+<h2>Flashcard a ripetizione spaziata</h2>
+<p class="lead">Il mazzo contiene formule ed enunciati di tutto il corso. Le carte che sbagli tornano subito; quelle che sai tornano a distanza crescente (10 minuti → 1 → 3 → 7 → 16 giorni). Studiare 5 minuti al giorno qui vale più di un'ora di rilettura.</p>
+<div class="widget">
+<div class="wt">Sessione di ripasso</div>
+<div class="wd" id="fc-status"></div>
+<div id="fc-card" style="border:1px solid var(--rule);border-radius:10px;background:#FAFBFC;min-height:120px;padding:22px 24px;font-family:var(--serif);font-size:19px;display:flex;align-items:center;justify-content:center;text-align:center;cursor:pointer"></div>
+<div class="ctrl" id="fc-controls" style="margin-top:12px">
+<button class="ghost" id="fc-flip">Gira la carta</button>
+<button id="fc-wrong" style="background:var(--red);border-color:var(--red);display:none">Sbagliata</button>
+<button class="ghost" id="fc-hard" style="display:none">Difficile</button>
+<button id="fc-right" style="background:#2E9E7C;border-color:#2E9E7C;display:none">La sapevo</button>
+</div>
+<div class="readout" id="fc-info"></div>
+</div>
+</section>
+
+<!-- ============ PROGRESSI ============ -->
+<section class="cap" id="progressi">
+<h2>I miei progressi</h2>
+<p class="lead">Tutto quello che fai su questo sito (capitoli completati, quiz, palestra, flashcard) viene salvato automaticamente nel browser. Da qui puoi vedere dove sei debole, ed esportare o importare lo stato per portarlo su un altro dispositivo.</p>
+<div class="warn" id="store-warn" style="display:none"><b>Attenzione:</b> il salvataggio automatico non è disponibile in questo browser (può capitare aprendo il file in modalità privata). I progressi restano validi finché la pagina è aperta: usa "Esporta" per non perderli.</div>
+
+<h3>Riepilogo</h3>
+<div class="widget">
+<div class="wt">Il tuo stato</div>
+<div id="dash" style="font-size:14.5px;line-height:1.7"></div>
+</div>
+
+<h3>Mappa delle debolezze</h3>
+<div class="widget">
+<div class="wt">Dove concentrare il ripasso</div>
+<div class="wd">Calcolata da quiz e palestra: le aree con la percentuale di risposte corrette più bassa (con almeno 3 tentativi).</div>
+<div id="weak" style="font-size:14.5px;line-height:1.8"></div>
+</div>
+
+<h3>Esporta e importa</h3>
+<p>L'esportazione scarica un file <code>analisi-progressi.json</code> con tutto il tuo stato. Su un altro dispositivo (o dopo aver pulito il browser) basta importarlo per riprendere esattamente da dove eri. Nessun account, nessun server: il file è tuo.</p>
+<div class="ctrl" style="font-family:var(--sans)">
+<button id="st-export">Esporta progressi</button>
+<button class="ghost" onclick="document.getElementById('st-import').click()">Importa progressi</button>
+<input type="file" id="st-import" accept=".json,application/json" style="display:none">
+<button class="ghost" id="st-reset" style="color:var(--red);border-color:var(--red)">Azzera tutto</button>
+</div>
+<div class="readout" id="st-msg"></div>
+</section>
+
 <!-- ============ FORMULARIO ============ -->
 <section class="cap" id="formulario">
 <h2>Formulario</h2>
@@ -1770,13 +1853,154 @@ p.redraw=draw;on('vol-sel','change',draw);on('vol-n','input',draw);draw();})();
  const v=Math.round(ok/qs.length*30);
  $('fq-out').innerHTML=`<b>${ok}/${qs.length}</b> — in trentesimi: <b>${v}/30</b>. ${ok===qs.length?'Perfetto: sei pronto.':ok>=8?'Buona base: rivedi i capitoli delle domande sbagliate (il feedback sotto ogni domanda ti dice quale).':'Torna sui capitoli segnalati dagli errori e rifai il test: conta la prima risposta, come all\'esame.'}`;});})();
 
+// ================= STATO PERSISTENTE =================
+const ST={v:1,caps:[],quiz:{},gen:{},cards:{}};
+let storeOK=true;
+try{localStorage.setItem('adz-test','1');localStorage.removeItem('adz-test');}catch(e){storeOK=false;}
+function loadState(){if(!storeOK)return;try{const raw=localStorage.getItem('adz-state');if(raw){const o=JSON.parse(raw);if(o&&o.v===1){ST.caps=o.caps||[];ST.quiz=o.quiz||{};ST.gen=o.gen||{};ST.cards=o.cards||{};}}}catch(e){}}
+function saveState(){if(!storeOK)return;try{localStorage.setItem('adz-state',JSON.stringify(ST));}catch(e){}}
+function MJ(el){if(window.renderMathInElement)renderMathInElement(el,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false});}
+const CAPNAMES={insiemi:'Insiemi e relazioni',complessi:'Numeri complessi',equazioni:'Equazioni e disequazioni',funzioni:'Funzioni',induzione:'Induzione',vettori:'Vettori e matrici',geometria:'Rette e piani',successioni:'Successioni',serie:'Serie',limiti:'Limiti',continuita:'Continuità',derivate:'Derivate',teoremi:'Teoremi e De l\'Hôpital',taylor:'Taylor',integrali:'Integrali',volumi:'Aree, volumi e impropri',studio:'Studio di funzione',formulario:'Formulario',esame:'Simulazione d\'esame'};
+const GENNAMES={lim:'Palestra: limiti notevoli',tay:'Palestra: limiti con Taylor',der:'Palestra: derivate',seg:'Palestra: segno parabola',ser:'Palestra: serie',int:'Palestra: integrali'};
+loadState();
+
+// ================= GENERATORE =================
+(()=>{
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const rnz=(a,b)=>{let v=0;while(v===0)v=ri(a,b);return v;};
+const frac=(n,d)=>{const g=(a,b)=>b?g(b,a%b):Math.abs(a);const k=g(n,d);n/=k;d/=k;if(d<0){n=-n;d=-d;}return d===1?String(n):n+'/'+d;};
+let cur=null;
+const T={
+ lim(){const a=rnz(-5,5),b=rnz(2,6);const kind=ri(0,3);
+  if(kind===0)return{q:`$$\\lim_{x\\to0}\\frac{\\sin(${a}x)}{${b}x}$$`,ans:a/b,anstx:frac(a,b),sol:`Riconduco al limite notevole: $\\dfrac{\\sin(${a}x)}{${b}x}=\\dfrac{\\sin(${a}x)}{${a}x}\\cdot\\dfrac{${a}}{${b}}$. Il primo fattore tende a 1, quindi il limite è $\\dfrac{${a}}{${b}}=${frac(a,b)}$.`};
+  if(kind===1)return{q:`$$\\lim_{x\\to0}\\frac{e^{${a}x}-1}{${b}x}$$`,ans:a/b,anstx:frac(a,b),sol:`$\\dfrac{e^{${a}x}-1}{${b}x}=\\dfrac{e^{${a}x}-1}{${a}x}\\cdot\\dfrac{${a}}{${b}}\\to1\\cdot\\dfrac{${a}}{${b}}=${frac(a,b)}$.`};
+  if(kind===2)return{q:`$$\\lim_{x\\to0}\\frac{\\ln(1+${a}x)}{${b}x}$$`,ans:a/b,anstx:frac(a,b),sol:`$\\dfrac{\\ln(1+${a}x)}{${a}x}\\cdot\\dfrac{${a}}{${b}}\\to\\dfrac{${a}}{${b}}=${frac(a,b)}$.`};
+  const c=ri(2,4);return{q:`$$\\lim_{x\\to0}\\frac{1-\\cos(${c}x)}{x^2}$$`,ans:c*c/2,anstx:frac(c*c,2),sol:`Uso $\\lim\\frac{1-\\cos t}{t^2}=\\frac12$ con $t=${c}x$: $\\dfrac{1-\\cos(${c}x)}{(${c}x)^2}\\cdot ${c*c}\\to\\dfrac12\\cdot${c*c}=${frac(c*c,2)}$.`};},
+ tay(){const a=rnz(-3,3);const kind=ri(0,2);
+  if(kind===0)return{q:`$$\\lim_{x\\to0}\\frac{\\sin(${a}x)-${a}x}{x^3}$$`,ans:-a*a*a/6,anstx:frac(-a*a*a,6),sol:`$\\sin t=t-\\frac{t^3}{6}+o(t^3)$ con $t=${a}x$: numeratore $=-\\dfrac{(${a}x)^3}{6}+o(x^3)=-\\dfrac{${a*a*a}}{6}x^3+o(x^3)$. Limite: $${frac(-a*a*a,6)}$.`};
+  if(kind===1)return{q:`$$\\lim_{x\\to0}\\frac{e^{${a}x}-1-${a}x}{x^2}$$`,ans:a*a/2,anstx:frac(a*a,2),sol:`$e^t=1+t+\\frac{t^2}2+o(t^2)$ con $t=${a}x$: numeratore $=\\dfrac{${a*a}x^2}{2}+o(x^2)$. Limite: $${frac(a*a,2)}$.`};
+  return{q:`$$\\lim_{x\\to0}\\frac{\\ln(1+${a}x)-${a}x}{x^2}$$`,ans:-a*a/2,anstx:frac(-a*a,2),sol:`$\\ln(1+t)=t-\\frac{t^2}2+o(t^2)$ con $t=${a}x$: numeratore $=-\\dfrac{${a*a}x^2}{2}+o(x^2)$. Limite: $${frac(-a*a,2)}$.`};},
+ der(){const a=rnz(2,5);const kind=ri(0,3);let q,ok,ds,sol;
+  if(kind===0){q=`$\\big(\\sin(${a}x)\\big)'$`;ok=`$${a}\\cos(${a}x)$`;ds=[`$\\cos(${a}x)$`,`$-${a}\\cos(${a}x)$`,`$${a}\\sin(${a}x)$`];sol=`Catena: derivata esterna $\\cos$ lasciando dentro $${a}x$, per la derivata di dentro, che è ${a}.`;}
+  else if(kind===1){q=`$\\big(e^{${a}x}\\big)'$`;ok=`$${a}e^{${a}x}$`;ds=[`$e^{${a}x}$`,`$${a}xe^{${a}x-1}$`,`$e^{${a}}$`];sol=`Catena: $e^{\\text{dentro}}$ resta uguale, moltiplicato per la derivata di $${a}x$, cioè ${a}.`;}
+  else if(kind===2){const n=ri(3,6);q=`$\\big(${a}x^{${n}}\\big)'$`;ok=`$${a*n}x^{${n-1}}$`;ds=[`$${a}x^{${n-1}}$`,`$${a*n}x^{${n}}$`,`$${a*n}x^{${n+1}}$`];sol=`Potenza: scende l'esponente e cala di uno: $${a}\\cdot${n}\\,x^{${n-1}}$.`;}
+  else{q=`$\\big(x\\,e^{${a}x}\\big)'$`;ok=`$e^{${a}x}(1+${a}x)$`;ds=[`$${a}e^{${a}x}$`,`$e^{${a}x}$`,`$e^{${a}x}(1+x)$`];sol=`Prodotto: $1\\cdot e^{${a}x}+x\\cdot ${a}e^{${a}x}=e^{${a}x}(1+${a}x)$.`;}
+  return{q:'Calcola '+q,mc:[ok,...ds],sol};},
+ seg(){let p=ri(-4,3),qq=p+ri(1,4);const b=-(p+qq),c=p*qq;const bs=b===0?'':(b>0?`+${b===1?'':b}x`:`${b===-1?'-':b}x`);const cs=c===0?'':(c>0?`+${c}`:String(c));
+  const q=`Per quali $x$ vale $\\;x^2${bs}${cs}>0$?`;
+  const ok=`$x<${p}$ oppure $x>${qq}$`;const ds=[`$${p}<x<${qq}$`,`$x>${qq}$`,`per ogni $x$`];
+  return{q,mc:[ok,...ds],sol:`Radici: $x^2${bs}${cs}=(x-(${p}))(x-(${qq}))$, cioè $x=${p}$ e $x=${qq}$. Parabola a U (coefficiente di $x^2$ positivo): positiva <b>fuori</b> dalle radici.`};},
+ ser(){const kind=ri(0,3);
+  if(kind===0){const al=[['1/2',0.5],['2',2],['3/2',1.5],['1',1],['3',3]][ri(0,4)];const conv=al[1]>1;
+   return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}\\frac{1}{n^{${al[0]}}}$`,mc:conv?['converge','diverge']:['diverge','converge'],sol:`Armonica generalizzata con $\\alpha=${al[0]}$: converge $\\iff\\alpha>1$. Qui ${conv?'$\\alpha>1$: <b>converge</b>':'$\\alpha\\le1$: <b>diverge</b>'}.`};}
+  if(kind===1){const a=ri(1,5),k=ri(3,5);const conv=k-1>1;
+   return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}\\frac{n+${a}}{n^{${k}}+${a}n}$`,mc:conv?['converge','diverge']:['diverge','converge'],sol:`Termini dominanti: $\\dfrac{n}{n^{${k}}}=\\dfrac1{n^{${k-1}}}$. Confronto asintotico con $\\alpha=${k-1}>1$: <b>converge</b>.`};}
+  if(kind===2){const c=ri(2,9);
+   return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}\\frac{${c}^n}{n!}$`,mc:['converge','diverge'],sol:`Criterio del rapporto: $\\dfrac{a_{n+1}}{a_n}=\\dfrac{${c}}{n+1}\\to0<1$: <b>converge</b> (il fattoriale batte l'esponenziale).`};}
+  const c=ri(2,9);return{q:`Studia il carattere di $\\;\\displaystyle\\sum_{n=1}^{\\infty}\\frac{n!}{${c}^n}$`,mc:['diverge','converge'],sol:`Rapporto: $\\dfrac{a_{n+1}}{a_n}=\\dfrac{n+1}{${c}}\\to+\\infty>1$: <b>diverge</b>.`};},
+ int(){const a=rnz(2,5);const kind=ri(0,3);let q,ok,ds,sol;
+  if(kind===0){const n=ri(2,5);q=`$\\displaystyle\\int ${a}x^{${n}}\\,dx$`;ok=`$\\dfrac{${a}x^{${n+1}}}{${n+1}}+c$`;ds=[`$${a*n}x^{${n-1}}+c$`,`$\\dfrac{x^{${n+1}}}{${n+1}}+c$`,`$${a}x^{${n+1}}+c$`];sol=`Potenza al contrario: sale l'esponente e si divide: $${a}\\dfrac{x^{${n+1}}}{${n+1}}+c$. Verifica derivando.`;}
+  else if(kind===1){q=`$\\displaystyle\\int \\cos(${a}x)\\,dx$`;ok=`$\\dfrac{\\sin(${a}x)}{${a}}+c$`;ds=[`$${a}\\sin(${a}x)+c$`,`$-\\dfrac{\\sin(${a}x)}{${a}}+c$`,`$\\sin(${a}x)+c$`];sol=`Sostituzione $t=${a}x$: serve $\\frac1{${a}}$ per compensare. Verifica: derivando esce $\\cos(${a}x)$.`;}
+  else if(kind===2){q=`$\\displaystyle\\int e^{${a}x}\\,dx$`;ok=`$\\dfrac{e^{${a}x}}{${a}}+c$`;ds=[`$${a}e^{${a}x}+c$`,`$e^{${a}x}+c$`,`$\\dfrac{e^{x}}{${a}}+c$`];sol=`Come sopra: $\\dfrac{e^{${a}x}}{${a}}+c$, perché derivando la catena porta giù un ${a}.`;}
+  else{q=`$\\displaystyle\\int \\dfrac{${a}}{x}\\,dx$`;ok=`$${a}\\ln|x|+c$`;ds=[`$-\\dfrac{${a}}{x^2}+c$`,`$\\ln|${a}x|+c$ e basta`,`$\\dfrac{${a}}{\\ln x}+c$`];sol=`$\\int\\frac1x=\\ln|x|+c$, la costante ${a} esce dall'integrale.`;}
+  return{q:'Calcola '+q,mc:[ok,...ds],sol};}
+};
+const shuffle=a=>{for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+function stat(topic,ok){ST.gen[topic]=ST.gen[topic]||{ok:0,tot:0};ST.gen[topic].tot++;if(ok)ST.gen[topic].ok++;saveState();renderCount();renderDash();}
+function renderCount(){const t=$('gen-topic').value;const s=ST.gen[t];$('gen-count').textContent=s?`Statistiche su questo tipo: ${s.ok} corretti su ${s.tot} (${Math.round(s.ok/s.tot*100)}%).`:'Nessun tentativo ancora su questo tipo: i risultati vengono salvati nei tuoi progressi.';}
+function newEx(){const t=$('gen-topic').value;cur=T[t]();cur.topic=t;cur.done=false;
+ $('gen-q').innerHTML=cur.q;$('gen-fb').innerHTML='';$('gen-sol').innerHTML=cur.sol;$('gen-soldet').style.display='none';$('gen-soldet').removeAttribute('open');
+ if(cur.mc){$('gen-numrow').style.display='none';const opts=cur.mc.map((o,i)=>({o,i}));shuffle(opts);
+  $('gen-mc').innerHTML='<div class="opts">'+opts.map(x=>`<button data-i="${x.i}">${x.o}</button>`).join('')+'</div>';
+  $('gen-mc').querySelectorAll('button').forEach(b=>b.addEventListener('click',()=>{if(cur.done)return;cur.done=true;const good=+b.dataset.i===0;
+   $('gen-mc').querySelectorAll('button').forEach(x=>{if(+x.dataset.i===0)x.classList.add('ok');});if(!good)b.classList.add('no');
+   $('gen-fb').innerHTML=good?'<b style="color:#2E9E7C">Corretto.</b>':'<b style="color:#C0392B">Non corretto</b>: la risposta giusta è evidenziata.';
+   $('gen-soldet').style.display='block';stat(cur.topic,good);}));}
+ else{$('gen-mc').innerHTML='';$('gen-numrow').style.display='flex';$('gen-ans').value='';}
+ MJ($('gen-q'));MJ($('gen-mc'));MJ($('gen-sol'));}
+function parseNum(s){s=(s||'').trim().replace(',','.');const m=s.match(/^(-?\d+(?:\.\d+)?)\s*\/\s*(-?\d+(?:\.\d+)?)$/);if(m)return parseFloat(m[1])/parseFloat(m[2]);const v=parseFloat(s);return isNaN(v)?null:v;}
+on('gen-check','click',()=>{if(!cur||cur.mc||cur.done)return;const v=parseNum($('gen-ans').value);
+ if(v===null){$('gen-fb').innerHTML='Non riesco a leggere la risposta: scrivi un numero, anche come frazione (es. "-1/6") o decimale (es. "0,5").';return;}
+ cur.done=true;const good=Math.abs(v-cur.ans)<1e-3*Math.max(1,Math.abs(cur.ans));
+ $('gen-fb').innerHTML=good?'<b style="color:#2E9E7C">Corretto.</b> Il valore è '+cur.anstx+'.':'<b style="color:#C0392B">Non corretto</b>: il risultato è <b>'+cur.anstx+'</b>.';
+ $('gen-soldet').style.display='block';stat(cur.topic,good);});
+$('gen-ans').addEventListener('keydown',e=>{if(e.key==='Enter')$('gen-check').click();});
+on('gen-new','click',newEx);on('gen-topic','change',()=>{renderCount();newEx();});
+renderCount();newEx();
+})();
+
+// ================= FLASHCARD =================
+(()=>{
+const DECK=[
+['d1','$(\\sin x)\'$','$\\cos x$'],['d2','$(\\cos x)\'$','$-\\sin x$'],['d3','$(\\tan x)\'$','$1+\\tan^2 x=\\dfrac1{\\cos^2x}$'],['d4','$(e^x)\'$','$e^x$'],['d5','$(\\ln x)\'$','$\\dfrac1x$'],['d6','$(x^n)\'$','$n\\,x^{n-1}$'],['d7','$(\\sqrt x)\'$','$\\dfrac1{2\\sqrt x}$'],['d8','$\\Big(\\dfrac1x\\Big)\'$','$-\\dfrac1{x^2}$'],['d9','$(\\arctan x)\'$','$\\dfrac1{1+x^2}$'],['d10','$(\\arcsin x)\'$','$\\dfrac1{\\sqrt{1-x^2}}$'],['d11','Regola della catena: $\\big(f(g(x))\\big)\'$','$f\'(g(x))\\cdot g\'(x)$: derivata esterna, per la derivata di dentro'],
+['t1','Sviluppo di $\\sin x$','$x-\\dfrac{x^3}{6}+\\dfrac{x^5}{120}+o(x^5)$'],['t2','Sviluppo di $\\cos x$','$1-\\dfrac{x^2}{2}+\\dfrac{x^4}{24}+o(x^4)$'],['t3','Sviluppo di $e^x$','$1+x+\\dfrac{x^2}{2}+\\dfrac{x^3}{6}+o(x^3)$'],['t4','Sviluppo di $\\ln(1+x)$','$x-\\dfrac{x^2}{2}+\\dfrac{x^3}{3}+o(x^3)$'],['t5','Sviluppo di $(1+x)^\\alpha$','$1+\\alpha x+\\dfrac{\\alpha(\\alpha-1)}{2}x^2+o(x^2)$'],['t6','Sviluppo di $\\tan x$','$x+\\dfrac{x^3}{3}+o(x^3)$'],['t7','Sviluppo di $\\arctan x$','$x-\\dfrac{x^3}{3}+o(x^3)$'],
+['l1','$\\lim_{x\\to0}\\dfrac{\\sin x}{x}$','$1$'],['l2','$\\lim_{x\\to0}\\dfrac{1-\\cos x}{x^2}$','$\\dfrac12$'],['l3','$\\lim_{x\\to0}\\dfrac{e^x-1}{x}$','$1$'],['l4','$\\lim_{x\\to0}\\dfrac{\\ln(1+x)}{x}$','$1$'],['l5','$\\lim_{x\\to\\pm\\infty}\\big(1+\\tfrac1x\\big)^x$','$e$'],['l6','Gerarchia degli infiniti','$\\ln n\\ll n^a\\ll b^n\\ll n!\\ll n^n$'],
+['i1','$\\int x^n dx$ $(n\\ne-1)$','$\\dfrac{x^{n+1}}{n+1}+c$'],['i2','$\\int\\dfrac{dx}{x}$','$\\ln|x|+c$'],['i3','$\\int\\sin x\\,dx$','$-\\cos x+c$'],['i4','$\\int\\cos x\\,dx$','$\\sin x+c$'],['i5','$\\int\\dfrac{dx}{1+x^2}$','$\\arctan x+c$'],['i6','$\\int\\dfrac{g\'(x)}{g(x)}dx$','$\\ln|g(x)|+c$'],['i7','Formula per parti','$\\int fg\'=fg-\\int f\'g$'],['i8','Volume di rotazione attorno all\'asse x','$V=\\pi\\displaystyle\\int_a^b f(x)^2dx$'],
+['s1','$\\sum q^n$ converge se... e a cosa?','Se $|q|<1$, con somma $\\dfrac1{1-q}$'],['s2','$\\sum\\dfrac1{n^\\alpha}$ converge $\\iff$','$\\alpha>1$'],['s3','Condizione necessaria per la convergenza di una serie','$a_n\\to0$ (necessaria ma NON sufficiente: l\'armonica)'],['s4','Criterio del rapporto: esiti','$L<1$ converge, $L>1$ diverge, $L=1$ non decide'],['s5','Criterio di Leibniz','$\\sum(-1)^n b_n$ converge se $b_n$ decrescente e $b_n\\to0$'],['s6','$\\int_1^{+\\infty}\\frac{dx}{x^\\alpha}$ e $\\int_0^1\\frac{dx}{x^\\alpha}$: quando convergono?','All\'infinito: $\\alpha>1$. Vicino a 0: $\\alpha<1$'],
+['th1','Teorema degli zeri: ipotesi e tesi','$f$ continua su $[a,b]$, $f(a)f(b)<0$ $\\Rightarrow$ esiste $c\\in(a,b)$ con $f(c)=0$'],['th2','Teorema di Weierstrass','$f$ continua su $[a,b]$ chiuso e limitato $\\Rightarrow$ $f$ ha massimo e minimo'],['th3','Teorema di Fermat','Estremo interno + derivabile $\\Rightarrow f\'(x_0)=0$ (necessaria, non sufficiente: $x^3$)'],['th4','Teorema di Rolle','$f$ continua su $[a,b]$, derivabile in $(a,b)$, $f(a)=f(b)$ $\\Rightarrow\\exists c: f\'(c)=0$'],['th5','Teorema di Lagrange','$f$ continua su $[a,b]$, derivabile in $(a,b)$ $\\Rightarrow\\exists c: f\'(c)=\\dfrac{f(b)-f(a)}{b-a}$'],['th6','De l\'Hôpital: quando si può usare?','Solo su forme $\\frac00$ o $\\frac\\infty\\infty$, se $\\lim\\frac{f\'}{g\'}$ esiste; si deriva sopra e sotto separatamente'],['th7','Teorema fondamentale del calcolo','Se $F\'=f$: $\\displaystyle\\int_a^b f=F(b)-F(a)$']
+];
+const IV=[10*60e3,1*864e5,3*864e5,7*864e5,16*864e5];
+let cardEl=$('fc-card');if(!cardEl)return;
+let cur=null,flipped=false;
+function due(){const now=Date.now();return DECK.filter(c=>{const s=ST.cards[c[0]];return !s||s.due<=now;});}
+function nextDue(){let m=Infinity;DECK.forEach(c=>{const s=ST.cards[c[0]];if(s&&s.due>Date.now())m=Math.min(m,s.due);});return m;}
+function status(){const d=due().length;const learned=DECK.filter(c=>(ST.cards[c[0]]||{}).b>=3).length;
+ $('fc-status').textContent=`Mazzo: ${DECK.length} carte · da ripassare ora: ${d} · consolidate (scatola 4-5): ${learned}.`;}
+function show(){status();const q=due();
+ if(!q.length){cur=null;const nd=nextDue();cardEl.innerHTML='Nessuna carta in scadenza: sessione completata. '+(isFinite(nd)?'Prossimo ripasso: '+new Date(nd).toLocaleString('it-IT',{day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'})+'.':'');
+ $('fc-flip').style.display='none';setBtns(false);$('fc-info').textContent='';return;}
+ cur=q[Math.floor(Math.random()*q.length)];flipped=false;
+ cardEl.innerHTML=cur[1];MJ(cardEl);$('fc-flip').style.display='inline-block';setBtns(false);
+ const b=(ST.cards[cur[0]]||{b:0}).b||0;$('fc-info').textContent='Scatola '+(b+1)+' di 5. Pensa alla risposta, poi gira la carta.';}
+function setBtns(v){['fc-wrong','fc-hard','fc-right'].forEach(i=>$(i).style.display=v?'inline-block':'none');}
+function flip(){if(!cur||flipped)return;flipped=true;cardEl.innerHTML=cur[2];MJ(cardEl);$('fc-flip').style.display='none';setBtns(true);$('fc-info').textContent='La sapevi?';}
+cardEl.addEventListener('click',flip);on('fc-flip','click',flip);
+function grade(g){if(!cur||!flipped)return;const s=ST.cards[cur[0]]||{b:0};
+ if(g===0)s.b=0;else if(g===1)s.b=Math.max(0,s.b);else s.b=Math.min(4,(s.b||0)+1);
+ s.due=Date.now()+(g===1?864e5:IV[s.b]);ST.cards[cur[0]]=s;saveState();renderDash();show();}
+on('fc-wrong','click',()=>grade(0));on('fc-hard','click',()=>grade(1));on('fc-right','click',()=>grade(2));
+show();window.fcRefresh=show;window.fcDeckSize=DECK.length;
+})();
+
+// ================= DASHBOARD + EXPORT/IMPORT =================
+function renderDash(){const d=$('dash');if(!d)return;
+ const nCaps=document.querySelectorAll('.mark button[data-cap]').length;
+ let qOK=0,qT=0;Object.values(ST.quiz).forEach(s=>{qOK+=s.ok;qT+=s.tot;});
+ let gOK=0,gT=0;Object.values(ST.gen).forEach(s=>{gOK+=s.ok;gT+=s.tot;});
+ const learned=Object.values(ST.cards).filter(s=>s.b>=3).length;
+ d.innerHTML=`<b>Capitoli completati:</b> ${ST.caps.length} su ${nCaps}${ST.caps.length?': '+ST.caps.map(c=>CAPNAMES[c]||c).join(', '):''}.<br>
+ <b>Quiz dei capitoli:</b> ${qT?qOK+' corrette su '+qT+' ('+Math.round(qOK/qT*100)+'%)':'nessuna risposta ancora'}.<br>
+ <b>Palestra:</b> ${gT?gOK+' corrette su '+gT+' ('+Math.round(gOK/gT*100)+'%)':'nessun esercizio ancora'}.<br>
+ <b>Flashcard consolidate:</b> ${learned} su ${window.fcDeckSize||45}.`;
+ const w=$('weak');if(!w)return;const rows=[];
+ Object.entries(ST.quiz).forEach(([k,s])=>{if(s.tot>=3)rows.push([CAPNAMES[k]||k,s.ok/s.tot,s.ok,s.tot,'#'+k]);});
+ Object.entries(ST.gen).forEach(([k,s])=>{if(s.tot>=3)rows.push([GENNAMES[k]||k,s.ok/s.tot,s.ok,s.tot,'#palestra']);});
+ rows.sort((a,b)=>a[1]-b[1]);
+ w.innerHTML=rows.length?rows.slice(0,5).map(r=>`<b>${Math.round(r[1]*100)}%</b> — <a href="${r[4]}">${r[0]}</a> (${r[2]}/${r[3]})${r[1]<0.6?' · <span style="color:var(--red)">da ripassare</span>':r[1]<0.85?' · quasi solido':' · solido'}`).join('<br>'):'Ancora pochi dati: rispondi ai quiz dei capitoli e fai qualche esercizio in palestra (servono almeno 3 tentativi per area).';}
+function applyCapsUI(){document.querySelectorAll('.mark button[data-cap]').forEach(b=>{const onn=ST.caps.includes(b.dataset.cap);b.classList.toggle('on',onn);if(b.dataset.base===undefined)b.dataset.base=b.textContent;b.textContent=onn?'Capitolo completato ✓':b.dataset.base;});
+ document.querySelectorAll('nav.side a').forEach(a=>{const c=a.getAttribute('href').slice(1);a.classList.toggle('done',ST.caps.includes(c));});
+ const pr=$('prog');if(pr)pr.textContent=`${ST.caps.length} capitoli su ${document.querySelectorAll('.mark button[data-cap]').length} completati`;}
+(()=>{if(!storeOK){const w=$('store-warn');if(w)w.style.display='block';}
+ on('st-export','click',()=>{const blob=new Blob([JSON.stringify({...ST,exported:new Date().toISOString()},null,1)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='analisi-progressi.json';a.click();URL.revokeObjectURL(a.href);
+  $('st-msg').textContent='File scaricato: conservalo o portalo su un altro dispositivo.';});
+ $('st-import').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();
+  r.onload=()=>{try{const o=JSON.parse(r.result);if(!o||o.v!==1||!Array.isArray(o.caps))throw 0;
+   ST.caps=o.caps;ST.quiz=o.quiz||{};ST.gen=o.gen||{};ST.cards=o.cards||{};saveState();applyCapsUI();renderDash();if(window.fcRefresh)fcRefresh();
+   $('st-msg').textContent='Progressi importati correttamente.';}
+  catch(err){$('st-msg').textContent='Il file non sembra un\'esportazione valida di questo corso: nessuna modifica applicata.';}};
+  r.readAsText(f);e.target.value='';});
+ on('st-reset','click',()=>{if(!confirm('Azzerare tutti i progressi (capitoli, quiz, palestra, flashcard)? L\'operazione non si può annullare.'))return;
+  ST.caps=[];ST.quiz={};ST.gen={};ST.cards={};saveState();applyCapsUI();renderDash();if(window.fcRefresh)fcRefresh();$('st-msg').textContent='Tutto azzerato.';});
+ applyCapsUI();renderDash();})();
+
 // ---------- Quiz ----------
-document.querySelectorAll('.q').forEach(q=>{const ans=+q.dataset.ans;const btns=q.querySelectorAll('.opts button');btns.forEach((b,i)=>b.addEventListener('click',()=>{if(q.dataset.res===undefined)q.dataset.res=(i===ans)?'1':'0';btns.forEach(x=>x.classList.remove('ok','no'));b.classList.add(i===ans?'ok':'no');if(i!==ans)btns[ans].classList.add('ok');q.querySelector('.fb').classList.add('show');}));});
+document.querySelectorAll('.q').forEach(q=>{const ans=+q.dataset.ans;const btns=q.querySelectorAll('.opts button');btns.forEach((b,i)=>b.addEventListener('click',()=>{if(q.dataset.res===undefined){q.dataset.res=(i===ans)?'1':'0';const sec=q.closest('section.cap');if(sec&&sec.id!=='palestra'){ST.quiz[sec.id]=ST.quiz[sec.id]||{ok:0,tot:0};ST.quiz[sec.id].tot++;if(i===ans)ST.quiz[sec.id].ok++;saveState();renderDash();}}btns.forEach(x=>x.classList.remove('ok','no'));b.classList.add(i===ans?'ok':'no');if(i!==ans)btns[ans].classList.add('ok');q.querySelector('.fb').classList.add('show');}));});
 
 // ---------- Progresso ----------
-const done=new Set();
-document.querySelectorAll('.mark button[data-cap]').forEach(b=>b.addEventListener('click',()=>{const c=b.dataset.cap;if(done.has(c)){done.delete(c);b.classList.remove('on');b.textContent='Ho capito questo capitolo';}else{done.add(c);b.classList.add('on');b.textContent='Capitolo completato ✓';}
-  document.querySelector(`nav.side a[href="#${c}"]`).classList.toggle('done',done.has(c));$('prog').textContent=`${done.size} capitoli su ${document.querySelectorAll('.mark button[data-cap]').length} completati`;}));
+document.querySelectorAll('.mark button[data-cap]').forEach(b=>b.addEventListener('click',()=>{const c=b.dataset.cap;
+  const k=ST.caps.indexOf(c);if(k>=0)ST.caps.splice(k,1);else ST.caps.push(c);
+  saveState();applyCapsUI();renderDash();}));
 
 // ---------- Scroll spy + menu ----------
 const links=[...document.querySelectorAll('nav.side a')];const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
