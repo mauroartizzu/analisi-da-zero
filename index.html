@@ -107,6 +107,11 @@ table.tab th{background:var(--teal-soft)}
   .two{grid-template-columns:1fr}
   .widget canvas{height:260px}
 }
+nav.side li.group{counter-increment:none;color:#8FA3BF;font-size:11.5px;text-transform:none;letter-spacing:.04em;margin:14px 0 3px;padding:0 8px;border-top:1px solid rgba(255,255,255,.12);padding-top:10px}
+nav.side li.group:first-child{border-top:0;margin-top:0;padding-top:0}
+details.sol{border:1px solid var(--rule);border-radius:8px;background:var(--page);margin:10px 0 22px;font-family:var(--sans)}
+details.sol summary{cursor:pointer;padding:10px 16px;font-weight:600;font-size:14px;color:var(--teal)}
+details.sol .body{padding:2px 18px 14px;font-family:var(--serif);font-size:16.5px;line-height:1.65;border-top:1px solid var(--rule)}
 </style>
 </head>
 <body>
@@ -116,18 +121,30 @@ table.tab th{background:var(--teal-soft)}
   <h1>Analisi da zero</h1>
   <div class="sub">Un corso che non dà nulla per scontato</div>
   <ol>
-    <li><a href="#insiemi">Insiemi e numeri</a></li>
+    <li class="group">Fondamenti</li>
+    <li><a href="#insiemi">Insiemi, relazioni e numeri</a></li>
+    <li><a href="#complessi">Numeri complessi</a></li>
+    <li><a href="#equazioni">Equazioni e disequazioni</a></li>
     <li><a href="#funzioni">Funzioni</a></li>
+    <li><a href="#induzione">Principio d'induzione</a></li>
+    <li><a href="#vettori">Vettori e matrici</a></li>
+    <li><a href="#geometria">Rette e piani</a></li>
+    <li class="group">Analisi</li>
     <li><a href="#successioni">Successioni</a></li>
+    <li><a href="#serie">Serie numeriche</a></li>
     <li><a href="#limiti">Limiti</a></li>
     <li><a href="#continuita">Continuità e suoi teoremi</a></li>
     <li><a href="#derivate">Derivate</a></li>
-    <li><a href="#teoremi">Teoremi sulle derivate e De l'Hôpital</a></li>
+    <li><a href="#teoremi">Teoremi e De l'Hôpital</a></li>
     <li><a href="#taylor">Taylor</a></li>
     <li><a href="#integrali">Integrali</a></li>
-    <li><a href="#studio">Studio di funzione completo</a></li>
+    <li><a href="#volumi">Aree, volumi e impropri</a></li>
+    <li><a href="#studio">Studio di funzione</a></li>
+    <li class="group">Verso l'esame</li>
+    <li><a href="#formulario">Formulario</a></li>
+    <li><a href="#esame">Simulazione d'esame</a></li>
   </ol>
-  <div class="prog" id="prog">0 capitoli su 10 completati</div>
+  <div class="prog" id="prog">0 capitoli su 19 completati</div>
 </nav>
 <main>
 <div class="hero">
@@ -137,7 +154,7 @@ table.tab th{background:var(--teal-soft)}
 </div>
 <!-- ============ 1 INSIEMI ============ -->
 <section class="cap" id="insiemi">
-<h2>Insiemi e numeri</h2>
+<h2>Insiemi, relazioni e numeri</h2>
 <p class="lead">Prima di parlare di funzioni e limiti serve il "materiale" con cui lavoreremo: collezioni di numeri, e un modo per dire "tutti i numeri tra qui e là".</p>
 <div class="pre"><b>Cosa devi già sapere:</b> niente. Solo cosa sono i numeri e come si mettono in fila su una retta.</div>
 
@@ -154,6 +171,7 @@ table.tab th{background:var(--teal-soft)}
 <tr><td>$\mathbb{Z}$</td><td>Interi</td><td>anche i negativi: $\dots,-2,-1,0,1,2,\dots$</td></tr>
 <tr><td>$\mathbb{Q}$</td><td>Razionali</td><td>le frazioni: $\tfrac12,\ -\tfrac{7}{3},\ 0{,}25$</td></tr>
 <tr><td>$\mathbb{R}$</td><td>Reali</td><td>tutti i punti della retta, comprese cose come $\sqrt2$ e $\pi$ che non sono frazioni</td></tr>
+<tr><td>$\mathbb{C}$</td><td>Complessi</td><td>i numeri del tipo $a+bi$ con $i^2=-1$: non stanno su una retta ma su un piano (capitolo dedicato)</td></tr>
 </table>
 <p>L'analisi lavora quasi sempre in $\mathbb{R}$: <span class="key">immagina una retta infinita, ogni punto è un numero reale, senza buchi</span>. Questa "assenza di buchi" è ciò che permette ai limiti di funzionare.</p>
 
@@ -208,6 +226,24 @@ Massimo: <b>non esiste</b>. Qualsiasi numero in $A$, per esempio $0{,}999$, ha q
 Estremo superiore: $\sup A = 1$. È il più piccolo dei maggioranti, anche se non appartiene ad $A$.
 </div>
 <p>Il fatto che in $\mathbb{R}$ ogni insieme limitato abbia sempre un $\sup$ (anche quando non ha massimo) si chiama <b>completezza</b> ed è la proprietà che rende possibile tutta l'analisi. Non serve dimostrarla: serve sapere che $\mathbb{R}$ "non ha buchi".</p>
+<h3>Relazioni tra elementi</h3>
+<p>Oltre a raggruppare elementi, spesso ci interessa <b>confrontarli a coppie</b>: "è uguale a", "è minore di", "è multiplo di". Una <b>relazione</b> su un insieme è una regola che, per ogni coppia di elementi, dice se sono in relazione oppure no.</p>
+<p>Tre proprietà che una relazione può avere (scriviamo $a\sim b$ per "a è in relazione con b"):</p>
+<ul>
+<li><b>Riflessiva</b>: ogni elemento è in relazione con sé stesso ($a\sim a$ sempre). "Ha la stessa età di": sì. "È più alto di": no.</li>
+<li><b>Simmetrica</b>: se $a\sim b$ allora $b\sim a$. "È fratello di": sì. "È figlio di": no.</li>
+<li><b>Transitiva</b>: se $a\sim b$ e $b\sim c$, allora $a\sim c$. "È più alto di": sì. "È amico di": non necessariamente.</li>
+</ul>
+<div class="def"><div class="t">Relazione di equivalenza</div>
+Una relazione riflessiva, simmetrica <b>e</b> transitiva. È una "uguaglianza generalizzata": spezza l'insieme in <b>classi di equivalenza</b>, scatole di elementi tutti equivalenti tra loro, senza sovrapposizioni.
+</div>
+<div class="ex"><div class="t">Esempio: stesso resto nella divisione per 3</div>
+Su $\mathbb{Z}$: $a\sim b$ se $a-b$ è multiplo di 3. Riflessiva ($a-a=0$, multiplo di 3), simmetrica (se $a-b$ lo è, anche $b-a$), transitiva (somma di multipli di 3). Le classi sono tre: i numeri con resto 0 $(\dots,-3,0,3,6,\dots)$, con resto 1, con resto 2. Ogni intero finisce in esattamente una scatola.
+</div>
+<div class="def"><div class="t">Relazione d'ordine</div>
+Riflessiva, transitiva e <b>antisimmetrica</b> (se $a\sim b$ e $b\sim a$ allora $a=b$). Serve per "mettere in fila": il $\le$ sui numeri è l'esempio principe. Un ordine può essere <b>totale</b> (ogni coppia è confrontabile, come $\le$ su $\mathbb{R}$) o <b>parziale</b> (esistono coppie non confrontabili: con "è divisore di" su $\mathbb{N}$, né 4 divide 6 né 6 divide 4).
+</div>
+
 
 <div class="quiz"><div class="qt">Controllo rapido</div>
 <div class="q" data-ans="1"><div class="qq">Quale scrittura descrive "tutti i numeri x con $2 &lt; x \le 7$"?</div>
@@ -215,12 +251,132 @@ Estremo superiore: $\sup A = 1$. È il più piccolo dei maggioranti, anche se no
 <div class="fb">La parentesi tonda esclude il 2 (perché $2&lt;x$, stretto), la quadra include il 7 (perché $x\le7$).</div></div>
 <div class="q" data-ans="2"><div class="qq">$A=[0,3]$. Qual è il $\sup A$?</div>
 <div class="opts"><button>Non esiste</button><button>$+\infty$</button><button>$3$, ed è anche il massimo</button></div>
-<div class="fb">3 è il più piccolo numero che sta sopra a tutti gli elementi, e appartiene ad A: quindi è sia sup che massimo.</div></div>
+<div class="fb">3 è il più piccolo numero che sta sopra a tutti gli elementi, e appartiene ad A: quindi è sia sup che massimo.</div></div><div class="q" data-ans="0"><div class="qq">"Ha lo stesso segno di" sui numeri reali non nulli è:</div>
+<div class="opts"><button>un'equivalenza (2 classi: positivi e negativi)</button><button>un ordine</button><button>solo simmetrica</button></div>
+<div class="fb">Riflessiva, simmetrica, transitiva: equivalenza. Le classi sono i positivi e i negativi.</div></div>
 <div class="mark"><button data-cap="insiemi">Ho capito questo capitolo</button></div>
 </div>
 </section>
 
 <!-- ============ 2 FUNZIONI ============ -->
+<!-- ============ COMPLESSI ============ -->
+<section class="cap" id="complessi">
+<h2>Numeri complessi</h2>
+<p class="lead">L'equazione $x^2=-1$ non ha soluzioni reali. Invece di arrenderci, inventiamo un numero che la risolve: nasce un piano intero di numeri nuovi.</p>
+<div class="pre"><b>Cosa devi già sapere:</b> gli insiemi di numeri ($\mathbb{N},\mathbb{Z},\mathbb{Q},\mathbb{R}$) e il piano cartesiano.</div>
+
+<h3>L'idea in parole povere</h3>
+<div class="idea"><div class="tag">Immagine mentale</div>Definiamo un simbolo $i$ con l'unica regola $i^2=-1$, e lo trattiamo come una normale lettera in algebra. Un numero complesso è $z=a+bi$: due numeri reali incollati insieme. Quindi non vive più su una retta, ma su un <b>piano</b>: $a$ è la coordinata orizzontale (parte reale), $b$ quella verticale (parte immaginaria).</div>
+<div class="def"><div class="t">Forma algebrica e operazioni</div>
+$z=a+bi$, con $\mathrm{Re}(z)=a$ e $\mathrm{Im}(z)=b$. Si somma e si moltiplica come con i polinomi, ricordando $i^2=-1$:<br>
+$(2+3i)+(1-i)=3+2i$<br>
+$(2+3i)(1-i)=2-2i+3i-3i^2=2+i+3=5+i$
+</div>
+<div class="def"><div class="t">Coniugato e modulo</div>
+Il <b>coniugato</b> $\bar z=a-bi$ (riflessione rispetto all'asse reale). Il <b>modulo</b> $|z|=\sqrt{a^2+b^2}$ è la distanza dall'origine (Pitagora). Vale $z\bar z=|z|^2$: per questo per dividere si moltiplica sopra e sotto per il coniugato:
+$$\frac{1}{2+i}=\frac{2-i}{(2+i)(2-i)}=\frac{2-i}{5}$$
+</div>
+
+<h3>Forma trigonometrica: modulo e angolo</h3>
+<p>Un punto del piano si può descrivere anche con la distanza dall'origine $\rho=|z|$ e l'angolo $\theta$ (argomento) rispetto all'asse reale: $z=\rho(\cos\theta+i\sin\theta)$. Questa forma rende la moltiplicazione geometrica: <span class="key">moltiplicare due complessi = moltiplicare i moduli e sommare gli angoli</span>.</p>
+<div class="teo"><div class="t">Formula di De Moivre</div>
+$$z^n=\rho^n\big(\cos(n\theta)+i\sin(n\theta)\big)$$
+<div class="why">Elevare a potenza = allungare il modulo e ruotare l'angolo $n$ volte: le potenze di un complesso disegnano una spirale. Da qui seguono le radici $n$-esime: ogni numero complesso non nullo ha esattamente $n$ radici $n$-esime, disposte ai vertici di un poligono regolare: $\sqrt[n]{\rho}$ di modulo e angoli $\frac{\theta+2k\pi}{n}$ per $k=0,\dots,n-1$.</div>
+</div>
+
+<div class="widget">
+<div class="wt">Il piano complesso e le potenze</div>
+<div class="wd">Muovi $a$ e $b$ e osserva modulo e argomento. Aumenta $n$ per vedere le potenze $z, z^2, z^3,\dots$: se $|z|&gt;1$ la spirale si allarga, se $|z|&lt;1$ si avvita verso l'origine.</div>
+<canvas id="w-cpx"></canvas>
+<div class="ctrl">
+<label>a <input type="range" id="cpx-a" min="-2" max="2" step="0.05" value="1"><span class="val" id="cpx-av">1</span></label>
+<label>b <input type="range" id="cpx-b" min="-2" max="2" step="0.05" value="0.6"><span class="val" id="cpx-bv">0.6</span></label>
+<label>potenze n <input type="range" id="cpx-n" min="1" max="8" step="1" value="1"><span class="val" id="cpx-nv">1</span></label>
+</div>
+<div class="readout" id="cpx-out"></div>
+</div>
+
+<div class="ex"><div class="t">Esempio d'esame: risolvere $z^2=2i$</div>
+<div class="step">Scrivo $2i$ in forma trigonometrica: modulo $2$, angolo $\frac\pi2$ (sta sull'asse immaginario positivo).</div>
+<div class="step">Le radici quadrate hanno modulo $\sqrt2$ e angoli $\frac{\pi/2}{2}=\frac\pi4$ e $\frac{\pi/2+2\pi}{2}=\frac{5\pi}4$.</div>
+<div class="step">$z_1=\sqrt2\big(\cos\frac\pi4+i\sin\frac\pi4\big)=1+i$, e $z_2=-1-i$. Verifica: $(1+i)^2=1+2i-1=2i$. ✓</div>
+</div>
+
+<div class="quiz"><div class="qt">Controllo rapido</div>
+<div class="q" data-ans="1"><div class="qq">$i^3$ vale:</div>
+<div class="opts"><button>$i$</button><button>$-i$</button><button>$-1$</button></div>
+<div class="fb">$i^3=i^2\cdot i=(-1)\cdot i=-i$. Le potenze di $i$ ciclano: $i,\ -1,\ -i,\ 1,\ i,\dots$</div></div>
+<div class="q" data-ans="2"><div class="qq">$|3+4i|$ vale:</div>
+<div class="opts"><button>$7$</button><button>$12$</button><button>$5$</button></div>
+<div class="fb">$\sqrt{9+16}=\sqrt{25}=5$: è Pitagora nel piano complesso.</div></div>
+<div class="mark"><button data-cap="complessi">Ho capito questo capitolo</button></div>
+</div>
+</section>
+
+<!-- ============ EQUAZIONI ============ -->
+<section class="cap" id="equazioni">
+<h2>Equazioni e disequazioni</h2>
+<p class="lead">Il "manuale di officina" del corso: risolvere equazioni e disequazioni serve ovunque, dal dominio di una funzione al segno della derivata.</p>
+<div class="pre"><b>Cosa devi già sapere:</b> intervalli (capitolo insiemi) e le funzioni elementari almeno di vista.</div>
+
+<h3>Secondo grado: la base di tutto</h3>
+<div class="def"><div class="t">Equazione $ax^2+bx+c=0$</div>
+$$x=\frac{-b\pm\sqrt{b^2-4ac}}{2a}$$
+Il <b>discriminante</b> $\Delta=b^2-4ac$ decide: $\Delta&gt;0$ due soluzioni, $\Delta=0$ una (doppia), $\Delta&lt;0$ nessuna reale (ma due complesse coniugate!).
+</div>
+<div class="idea"><div class="tag">Il segno della parabola, a memoria visiva</div>Per le <b>disequazioni</b> $ax^2+bx+c\gtrless0$ non servono regole da imparare a pappagallo: disegna mentalmente la parabola. Se $a&gt;0$ è una U: positiva fuori dalle radici, negativa in mezzo. Se $a&lt;0$ è una ∩: il contrario.</div>
+
+<div class="widget">
+<div class="wt">Il segno di ax² + bx + c</div>
+<div class="wd">Muovi i coefficienti e leggi dove la parabola è positiva (sopra l'asse) e negativa (sotto). Guarda cosa succede quando $\Delta$ diventa negativo.</div>
+<canvas id="w-par"></canvas>
+<div class="ctrl">
+<label>a <input type="range" id="par-a" min="-2" max="2" step="0.1" value="1"><span class="val" id="par-av">1</span></label>
+<label>b <input type="range" id="par-b" min="-5" max="5" step="0.1" value="-1"><span class="val" id="par-bv">-1</span></label>
+<label>c <input type="range" id="par-c" min="-5" max="5" step="0.1" value="-2"><span class="val" id="par-cv">-2</span></label>
+</div>
+<div class="readout" id="par-out"></div>
+</div>
+
+<h3>Disequazioni fratte e prodotti: la tabella dei segni</h3>
+<p>Per $\dfrac{A(x)}{B(x)}&gt;0$ o $A(x)\cdot B(x)&gt;0$: studia il segno di ogni fattore separatamente, mettili in una tabella, e combina con la regola dei segni. <b>Mai</b> moltiplicare entrambi i membri per il denominatore: non sai che segno ha.</p>
+<div class="ex"><div class="t">Esempio svolto</div>
+$\dfrac{x-2}{x+1}\ge0$.
+<div class="step">$x-2\ge0$ per $x\ge2$. $\;x+1&gt;0$ per $x&gt;-1$ (e $x\ne-1$: è al denominatore).</div>
+<div class="step">Tabella: prima di $-1$ entrambi negativi ⇒ rapporto positivo. Tra $-1$ e $2$: segni opposti ⇒ negativo. Dopo $2$: entrambi positivi ⇒ positivo.</div>
+<div class="step">Soluzione: $x&lt;-1$ oppure $x\ge2$, cioè $(-\infty,-1)\cup[2,+\infty)$. Nota: $-1$ escluso (denominatore), $2$ incluso (il $\ge$ ammette lo zero del numeratore).</div>
+</div>
+
+<h3>Irrazionali: la radice va isolata e domata</h3>
+<div class="ex"><div class="t">Esempio: $\sqrt{x+3}&lt;x+1$</div>
+<div class="step">Condizioni di esistenza: $x+3\ge0$. La radice è sempre $\ge0$: perché la disuguaglianza abbia senso serve anche $x+1&gt;0$.</div>
+<div class="step">Con entrambi i membri positivi posso elevare al quadrato: $x+3&lt;x^2+2x+1$, cioè $x^2+x-2&gt;0$, cioè $x&lt;-2$ o $x&gt;1$.</div>
+<div class="step">Intersezione con le condizioni ($x\ge-3$ e $x&gt;-1$): resta <b>$x&gt;1$</b>.</div>
+</div>
+<div class="warn"><b>Errore classico:</b> elevare al quadrato senza controllare i segni. $-3&lt;2$ è vera, ma $9&lt;4$ è falsa: il quadrato conserva l'ordine solo tra numeri positivi.</div>
+
+<h3>Esponenziali e logaritmiche (trascendenti)</h3>
+<p>Strategia: portare tutto alla stessa base, poi confrontare gli esponenti (o gli argomenti). L'esponenziale e il log con base $&gt;1$ sono <b>crescenti</b>: la disuguaglianza si conserva. Con base tra $0$ e $1$ sono decrescenti: <span class="key">la disuguaglianza si ribalta</span>.</p>
+<div class="ex"><div class="t">Esempi</div>
+<div class="step">$2^{x+1}=8$: scrivo $8=2^3$, quindi $x+1=3$, $x=2$.</div>
+<div class="step">$e^{2x}-3e^x+2=0$: pongo $t=e^x$ ($t&gt;0$): $t^2-3t+2=0$, $t=1$ o $t=2$, quindi $x=0$ o $x=\ln2$.</div>
+<div class="step">$\ln(x-1)\le2$: esistenza $x&gt;1$; poi $x-1\le e^2$, quindi $1&lt;x\le1+e^2$.</div>
+<div class="step">$\left(\frac12\right)^x&gt;4$: base minore di 1, riscrivo $4=\left(\frac12\right)^{-2}$ e ribalto: $x&lt;-2$.</div>
+</div>
+
+<h3>Trigonometriche di base</h3>
+<p>Si risolvono sulla circonferenza: $\sin x=\frac12$ ha soluzioni $x=\frac\pi6+2k\pi$ e $x=\pi-\frac\pi6+2k\pi$ (i due punti della circonferenza ad altezza $\frac12$). $\cos x=\frac12$ dà $x=\pm\frac\pi3+2k\pi$ (i due punti a distanza orizzontale $\frac12$). Il $+2k\pi$ ricorda che seno e coseno si ripetono ogni giro.</p>
+
+<div class="quiz"><div class="qt">Controllo rapido</div>
+<div class="q" data-ans="0"><div class="qq">$x^2-5x+6&lt;0$</div>
+<div class="opts"><button>$2&lt;x&lt;3$</button><button>$x&lt;2$ o $x&gt;3$</button><button>Mai</button></div>
+<div class="fb">Radici 2 e 3, parabola a U: negativa <em>tra</em> le radici.</div></div>
+<div class="q" data-ans="2"><div class="qq">$\left(\frac13\right)^x&lt;9$</div>
+<div class="opts"><button>$x&lt;-2$</button><button>$x&lt;2$</button><button>$x&gt;-2$</button></div>
+<div class="fb">$9=(\frac13)^{-2}$; base minore di 1 ⇒ si ribalta: $x&gt;-2$.</div></div>
+<div class="mark"><button data-cap="equazioni">Ho capito questo capitolo</button></div>
+</div>
+</section>
 <section class="cap" id="funzioni">
 <h2>Funzioni</h2>
 <p class="lead">Tutto il corso studia funzioni. Qui capiamo cosa sono, come si leggono dal grafico, e conosciamo le "funzioni elementari" che ritroveremo ovunque.</p>
@@ -300,6 +456,154 @@ Attenzione: $g(f(x))=(\sqrt x)^2+1=x+1$ è una funzione diversa (e ha dominio di
 </section>
 
 <!-- ============ 3 SUCCESSIONI ============ -->
+<!-- ============ INDUZIONE ============ -->
+<section class="cap" id="induzione">
+<h2>Principio d'induzione</h2>
+<p class="lead">Come si dimostra che una proprietà vale per infiniti numeri naturali, tutti insieme, con una dimostrazione lunga due righe.</p>
+<div class="pre"><b>Cosa devi già sapere:</b> i numeri naturali e un po' di algebra. Niente altro.</div>
+
+<h3>L'idea in parole povere</h3>
+<div class="idea"><div class="tag">Immagine mentale: il domino</div>Hai una fila infinita di tessere del domino. Se (1) <b>fai cadere la prima</b>, e (2) <b>ogni tessera che cade fa cadere la successiva</b>, allora cadono tutte. Nessuna esclusa, anche se sono infinite. L'induzione è esattamente questo, con "la tessera $n$ cade" = "la proprietà vale per $n$".</div>
+<div class="def"><div class="t">Principio d'induzione</div>
+Per dimostrare che una proprietà $P(n)$ vale per ogni naturale $n\ge n_0$:<br>
+<b>Base:</b> verifico che $P(n_0)$ è vera (la prima tessera cade).<br>
+<b>Passo induttivo:</b> <em>supponendo</em> vera $P(n)$ (ipotesi induttiva), dimostro che allora è vera anche $P(n+1)$ (ogni tessera fa cadere la successiva).
+</div>
+<div class="warn"><b>L'obiezione che viene a tutti:</b> "ma nel passo sto assumendo proprio quello che voglio dimostrare!". No: assumo che valga <em>per un singolo n</em> e dimostro che si <em>trasmette</em> a $n+1$. La verità iniziale la garantisce la base. Senza base non si conclude nulla: "se $n=n+1$ allora $n+1=n+2$" è un passo valido di una catena che non parte mai.</div>
+
+<div class="ex"><div class="t">Esempio 1: la somma dei primi n numeri</div>
+Dimostriamo $1+2+\dots+n=\dfrac{n(n+1)}2$ per ogni $n\ge1$.
+<div class="step"><b>Base</b> ($n=1$): sinistra $=1$, destra $=\frac{1\cdot2}2=1$. ✓</div>
+<div class="step"><b>Passo:</b> suppongo $1+\dots+n=\frac{n(n+1)}2$. Allora $1+\dots+n+(n+1)=\frac{n(n+1)}2+(n+1)=(n+1)\Big(\frac n2+1\Big)=\frac{(n+1)(n+2)}2$.</div>
+<div class="step">Che è esattamente la formula con $n+1$ al posto di $n$. ✓ Quindi vale per ogni $n$.</div>
+</div>
+<div class="ex"><div class="t">Esempio 2: disuguaglianza di Bernoulli</div>
+$(1+x)^n\ge1+nx$ per ogni $n\ge0$ e $x&gt;-1$.
+<div class="step"><b>Base</b> ($n=0$): $1\ge1$. ✓</div>
+<div class="step"><b>Passo:</b> $(1+x)^{n+1}=(1+x)^n(1+x)\ge(1+nx)(1+x)$ (uso l'ipotesi; posso moltiplicare perché $1+x&gt;0$) $=1+(n+1)x+nx^2\ge1+(n+1)x$. ✓</div>
+Questa disuguaglianza si usa poi per dimostrare i limiti delle successioni geometriche.
+</div>
+
+<div class="quiz"><div class="qt">Controllo rapido</div>
+<div class="q" data-ans="1"><div class="qq">Nel passo induttivo si dimostra:</div>
+<div class="opts"><button>che $P(n)$ è vera</button><button>che se $P(n)$ è vera allora $P(n+1)$ è vera</button><button>che $P(n)$ è vera per n grande</button></div>
+<div class="fb">Il passo è un'implicazione: la trasmissione da una tessera alla successiva. La verità la innesca la base.</div></div>
+<div class="q" data-ans="2"><div class="qq">Se la base è verificata per $n_0=5$, la proprietà risulta dimostrata per:</div>
+<div class="opts"><button>tutti i naturali</button><button>solo $n=5$</button><button>tutti gli $n\ge5$</button></div>
+<div class="fb">Il domino parte dalla tessera 5: cadono la 5 e tutte le successive. Sotto il 5 non si sa nulla.</div></div>
+<div class="mark"><button data-cap="induzione">Ho capito questo capitolo</button></div>
+</div>
+</section>
+
+<!-- ============ VETTORI E MATRICI ============ -->
+<section class="cap" id="vettori">
+<h2>Vettori e matrici</h2>
+<p class="lead">Frecce che si sommano e tabelle di numeri che risolvono sistemi: il minimo indispensabile di algebra lineare, con il metodo di Gauss.</p>
+<div class="pre"><b>Cosa devi già sapere:</b> il piano cartesiano e le equazioni di primo grado.</div>
+
+<h3>Vettori: frecce con le coordinate</h3>
+<div class="idea"><div class="tag">Immagine mentale</div>Un vettore è uno spostamento: "3 a destra e 2 in su" si scrive $\vec u=(3,2)$. Non ha una posizione: solo direzione, verso e lunghezza. Due frecce parallele, equiverse e lunghe uguali sono lo stesso vettore.</div>
+<div class="def"><div class="t">Operazioni</div>
+Somma: componente per componente, $(3,2)+(1,-1)=(4,1)$. Geometricamente: metto le frecce in fila (o regola del parallelogramma).<br>
+Prodotto per uno scalare: $2\cdot(3,2)=(6,4)$: stessa direzione, lunghezza doppia; con scalare negativo si ribalta il verso.<br>
+Lunghezza (modulo): $|\vec u|=\sqrt{u_x^2+u_y^2}$ (Pitagora).<br>
+<b>Prodotto scalare:</b> $\vec u\cdot\vec v=u_xv_x+u_yv_y=|\vec u||\vec v|\cos\theta$. È un numero, e misura "quanto i due vettori puntano nella stessa direzione". <span class="key">$\vec u\cdot\vec v=0\iff$ perpendicolari.</span>
+</div>
+
+<div class="widget">
+<div class="wt">Somma e prodotto scalare</div>
+<div class="wd">Muovi le componenti di $\vec u$ (blu) e $\vec v$ (arancione). La freccia verde è la somma (diagonale del parallelogramma). Cerca di rendere il prodotto scalare zero: i vettori diventano perpendicolari.</div>
+<canvas id="w-vec"></canvas>
+<div class="ctrl">
+<label>uₓ <input type="range" id="vec-ux" min="-3" max="3" step="0.1" value="2"><span class="val" id="vec-uxv">2</span></label>
+<label>u_y <input type="range" id="vec-uy" min="-3" max="3" step="0.1" value="1"><span class="val" id="vec-uyv">1</span></label>
+<label>vₓ <input type="range" id="vec-vx" min="-3" max="3" step="0.1" value="-1"><span class="val" id="vec-vxv">-1</span></label>
+<label>v_y <input type="range" id="vec-vy" min="-3" max="3" step="0.1" value="2"><span class="val" id="vec-vyv">2</span></label>
+</div>
+<div class="readout" id="vec-out"></div>
+</div>
+
+<h3>Matrici: tabelle che trasformano</h3>
+<p>Una matrice è una tabella di numeri, $m$ righe per $n$ colonne. Si sommano componente per componente (se hanno le stesse dimensioni). Il <b>prodotto</b> è la cosa nuova: l'elemento in riga $i$, colonna $j$ del prodotto $AB$ è il prodotto scalare tra la <em>riga $i$ di $A$</em> e la <em>colonna $j$ di $B$</em>. Serve che le colonne di $A$ siano quante le righe di $B$, e in generale $AB\ne BA$.</p>
+<div class="ex"><div class="t">Esempio di prodotto</div>
+$$\begin{pmatrix}1&2\\0&3\end{pmatrix}\begin{pmatrix}4\\5\end{pmatrix}=\begin{pmatrix}1\cdot4+2\cdot5\\0\cdot4+3\cdot5\end{pmatrix}=\begin{pmatrix}14\\15\end{pmatrix}$$
+Riga per colonna, come un prodotto scalare ripetuto.
+</div>
+
+<h3>Sistemi lineari e metodo di Gauss</h3>
+<p>Un sistema lineare si può scrivere come $A\vec x=\vec b$: la matrice dei coefficienti per il vettore delle incognite. Il metodo di Gauss lo risolve con tre mosse lecite che non cambiano le soluzioni: scambiare due righe, moltiplicare una riga per un numero $\ne0$, sommare a una riga un multiplo di un'altra. Obiettivo: <b>forma a scala</b> (zeri sotto la diagonale), poi si risale sostituendo.</p>
+<div class="ex"><div class="t">Esempio svolto per intero</div>
+$$\begin{cases}x+y+z=6\\2x+y-z=1\\x-y+2z=5\end{cases}$$
+<div class="step">R2 ← R2 − 2·R1: $\;-y-3z=-11$. &nbsp; R3 ← R3 − R1: $\;-2y+z=-1$.</div>
+<div class="step">R3 ← R3 − 2·R2: $\;z+6z=7z$... con ordine: R3 − 2·R2 dà $(-2y+z)-2(-y-3z)=7z$ e $-1-2(-11)=21$, quindi $7z=21$, $z=3$.</div>
+<div class="step">Risalgo: da R2, $-y-9=-11\Rightarrow y=2$. Da R1, $x+2+3=6\Rightarrow x=1$.</div>
+<div class="step">Soluzione $(1,2,3)$. Verifica nella seconda equazione: $2+2-3=1$. ✓</div>
+</div>
+<p>Tre esiti possibili per un sistema: <b>una</b> soluzione (scala completa), <b>infinite</b> (una riga sparisce: un'incognita resta libera), <b>nessuna</b> (esce una riga impossibile tipo $0=5$).</p>
+
+<div class="quiz"><div class="qt">Controllo rapido</div>
+<div class="q" data-ans="0"><div class="qq">$\vec u=(2,1)$ e $\vec v=(1,-2)$ sono:</div>
+<div class="opts"><button>perpendicolari</button><button>paralleli</button><button>uguali in modulo ma non perpendicolari</button></div>
+<div class="fb">$\vec u\cdot\vec v=2\cdot1+1\cdot(-2)=0$: perpendicolari (e sì, hanno anche lo stesso modulo $\sqrt5$).</div></div>
+<div class="q" data-ans="2"><div class="qq">Con Gauss ottieni la riga $0x+0y+0z=4$. Il sistema:</div>
+<div class="opts"><button>ha infinite soluzioni</button><button>ha soluzione $z=4$</button><button>è impossibile</button></div>
+<div class="fb">$0=4$ è falsa per qualsiasi valore delle incognite: nessuna soluzione.</div></div>
+<div class="mark"><button data-cap="vettori">Ho capito questo capitolo</button></div>
+</div>
+</section>
+
+<!-- ============ GEOMETRIA ============ -->
+<section class="cap" id="geometria">
+<h2>Rette e piani</h2>
+<p class="lead">La geometria analitica minima: descrivere rette e piani con equazioni, e riconoscere a colpo d'occhio parallelismo e perpendicolarità.</p>
+<div class="pre"><b>Cosa devi già sapere:</b> vettori e prodotto scalare (capitolo precedente).</div>
+
+<h3>Rette nel piano</h3>
+<div class="def"><div class="t">Equazione della retta</div>
+Forma esplicita: $y=mx+q$. Il <b>coefficiente angolare</b> $m$ è la pendenza (quanto salgo per ogni passo a destra), $q$ è l'altezza a cui taglio l'asse $y$. Le rette verticali non si scrivono così: sono $x=k$. La forma generale $ax+by+c=0$ le copre tutte.
+</div>
+<ul>
+<li><b>Parallele</b> ⟺ stesso $m$ (stessa pendenza, mai si incontrano, o coincidono).</li>
+<li><b>Perpendicolari</b> ⟺ $m_1\cdot m_2=-1$ (una pendenza è l'antireciproco dell'altra: $m=2$ e $m=-\frac12$).</li>
+<li>Retta per un punto $(x_0,y_0)$ con pendenza $m$: $\;y-y_0=m(x-x_0)$. È la formula che si usa anche per la <b>retta tangente</b> nel calcolo differenziale.</li>
+<li>Distanza di un punto $(x_0,y_0)$ dalla retta $ax+by+c=0$: $\;d=\dfrac{|ax_0+by_0+c|}{\sqrt{a^2+b^2}}$.</li>
+</ul>
+
+<div class="widget">
+<div class="wt">Due rette: parallele, perpendicolari o incidenti?</div>
+<div class="wd">Muovi le pendenze e le intercette. Il riquadro sotto ti dice la relazione tra le rette e, se si incontrano, il punto di intersezione (che è la soluzione del sistema delle due equazioni).</div>
+<canvas id="w-lin"></canvas>
+<div class="ctrl">
+<label>m₁ <input type="range" id="lin-m1" min="-3" max="3" step="0.1" value="1"><span class="val" id="lin-m1v">1</span></label>
+<label>q₁ <input type="range" id="lin-q1" min="-3" max="3" step="0.1" value="0"><span class="val" id="lin-q1v">0</span></label>
+<label>m₂ <input type="range" id="lin-m2" min="-3" max="3" step="0.1" value="-1"><span class="val" id="lin-m2v">-1</span></label>
+<label>q₂ <input type="range" id="lin-q2" min="-3" max="3" step="0.1" value="1"><span class="val" id="lin-q2v">1</span></label>
+</div>
+<div class="readout" id="lin-out"></div>
+</div>
+
+<h3>Piani nello spazio</h3>
+<p>In tre dimensioni l'equazione $ax+by+cz=d$ descrive un <b>piano</b>. Il vettore $\vec n=(a,b,c)$ dei coefficienti è la <b>normale</b>: la freccia perpendicolare al piano. Questo rende tutto meccanico:</p>
+<ul>
+<li>Due piani sono <b>paralleli</b> ⟺ le normali sono proporzionali: $(1,2,-1)$ e $(2,4,-2)$ danno piani paralleli.</li>
+<li>Due piani sono <b>perpendicolari</b> ⟺ le normali sono perpendicolari: $\vec n_1\cdot\vec n_2=0$.</li>
+<li>Una retta nello spazio si descrive in <b>forma parametrica</b>: punto di partenza + direzione, $(x,y,z)=(x_0,y_0,z_0)+t\,(v_1,v_2,v_3)$ al variare di $t$. La retta è parallela a un piano se la sua direzione è perpendicolare alla normale del piano ($\vec v\cdot\vec n=0$).</li>
+</ul>
+<div class="ex"><div class="t">Esempio</div>
+Piano $\pi:2x-y+z=3$ e retta $r:(x,y,z)=(1,0,2)+t(1,1,-1)$. Sono paralleli?
+<div class="step">$\vec n=(2,-1,1)$, direzione $\vec v=(1,1,-1)$. $\vec n\cdot\vec v=2-1-1=0$: la direzione è perpendicolare alla normale, quindi <b>sì</b>, la retta è parallela al piano (resta da vedere se giace nel piano: il punto $(1,0,2)$ dà $2-0+2=4\ne3$, quindi è parallela e fuori dal piano).</div>
+</div>
+
+<div class="quiz"><div class="qt">Controllo rapido</div>
+<div class="q" data-ans="1"><div class="qq">La retta perpendicolare a $y=3x+1$ ha pendenza:</div>
+<div class="opts"><button>$-3$</button><button>$-\frac13$</button><button>$\frac13$</button></div>
+<div class="fb">$m_1m_2=-1$: $m_2=-\frac13$.</div></div>
+<div class="q" data-ans="0"><div class="qq">I piani $x+2y-z=1$ e $2x+4y-2z=7$ sono:</div>
+<div class="opts"><button>paralleli e distinti</button><button>lo stesso piano</button><button>perpendicolari</button></div>
+<div class="fb">Normali proporzionali ⇒ paralleli. Ma la seconda equazione non è il doppio della prima ($7\ne2$): distinti.</div></div>
+<div class="mark"><button data-cap="geometria">Ho capito questo capitolo</button></div>
+</div>
+</section>
 <section class="cap" id="successioni">
 <h2>Successioni</h2>
 <p class="lead">Una successione è una lista infinita di numeri. È il posto più semplice dove incontrare l'idea di limite, perché c'è una sola direzione in cui andare: avanti.</p>
@@ -382,6 +686,87 @@ Se una successione cresce sempre (o decresce sempre) e non supera mai una certa 
 <div class="opts"><button>il posto da cui i termini stanno vicino a L</button><button>il valore del limite</button><button>quanto vicino a L pretendiamo che stiano i termini</button></div>
 <div class="fb">$\varepsilon$ è la tolleranza scelta da chi ci sfida; $N$ è il posto da cui in poi la tolleranza è rispettata.</div></div>
 <div class="mark"><button data-cap="successioni">Ho capito questo capitolo</button></div>
+</div>
+</section>
+<!-- ============ SERIE ============ -->
+<section class="cap" id="serie">
+<h2>Serie numeriche</h2>
+<p class="lead">Cosa succede se sommi infiniti numeri? A volte un totale finito, a volte infinito. Le serie sono il modo rigoroso di deciderlo, e sono un pezzo fisso dell'esame.</p>
+<div class="pre"><b>Cosa devi già sapere:</b> le successioni e i loro limiti (gerarchia degli infiniti compresa).</div>
+
+<h3>L'idea in parole povere</h3>
+<div class="idea"><div class="tag">Immagine mentale</div>Cammini verso un muro facendo passi lunghi $\frac12$, poi $\frac14$, poi $\frac18,\dots$ Fai infiniti passi ma percorri in totale 1 metro: infiniti addendi, somma finita. Se invece i passi fossero $\frac12,\frac13,\frac14,\dots$ (l'armonica), per quanto piccoli, arriveresti ovunque: somma infinita. La differenza tra i due casi è tutta la teoria delle serie.</div>
+<div class="def"><div class="t">Serie e somme parziali</div>
+Data una successione $(a_n)$, la serie $\sum_{n=1}^{\infty}a_n$ è il limite delle <b>somme parziali</b> $S_N=a_1+a_2+\dots+a_N$:<br>
+se $S_N\to S$ finito la serie <b>converge</b> con somma $S$; se $S_N\to\pm\infty$ <b>diverge</b>; se $S_N$ non ha limite è <b>indeterminata</b>.
+</div>
+
+<div class="widget">
+<div class="wt">Le somme parziali si accumulano</div>
+<div class="wd">Ogni punto è $S_N$: il totale dopo $N$ addendi. Guarda la geometrica avvicinarsi al suo tetto, $\sum 1/n^2$ fermarsi a $\pi^2/6\approx1{,}645$, e l'armonica salire per sempre (lentissima, ma inarrestabile).</div>
+<canvas id="w-ser"></canvas>
+<div class="ctrl">
+<label>Serie <select id="ser-sel">
+<option value="geo">geometrica Σ(1/2)ⁿ</option><option value="geo9">geometrica Σ(0,9)ⁿ</option><option value="p2">Σ 1/n²</option><option value="arm">armonica Σ 1/n</option><option value="alt">Σ (−1)ⁿ⁺¹/n (Leibniz)</option>
+</select></label>
+<label>N <input type="range" id="ser-n" min="1" max="60" step="1" value="10"><span class="val" id="ser-nv">10</span></label>
+</div>
+<div class="readout" id="ser-out"></div>
+</div>
+
+<h3>Le due serie campione</h3>
+<div class="teo"><div class="t">Serie geometrica</div>
+$$\sum_{n=0}^{\infty}q^n=\frac{1}{1-q}\quad\text{se }|q|&lt;1,\qquad\text{diverge se }q\ge1,\text{ indeterminata se }q\le-1$$
+<div class="why">È l'unica serie di cui si sa la somma esatta con una formula. Con $q=\frac12$: somma $2$ (il muro dell'immagine iniziale). Serve come pietra di paragone per il criterio del rapporto e della radice.</div>
+</div>
+<div class="teo"><div class="t">Serie armonica generalizzata</div>
+$$\sum_{n=1}^{\infty}\frac{1}{n^\alpha}\quad\text{converge se }\alpha&gt;1,\text{ diverge se }\alpha\le1$$
+<div class="why">Il caso $\alpha=1$ (armonica) diverge anche se i termini vanno a zero: la soglia è delicatissima. Questa famiglia è il metro di paragone del criterio del confronto: quasi ogni esercizio si riconduce a "somiglia a $1/n^\alpha$ con quale $\alpha$?".</div>
+</div>
+
+<h3>Condizione necessaria (il primo controllo, sempre)</h3>
+<div class="teo"><div class="t">Se la serie converge, allora $a_n\to0$</div>
+<div class="why">Letta al contrario è il test più rapido che esista: <span class="key">se il termine generale non va a zero, la serie diverge di sicuro</span>. Es.: $\sum\frac{n}{n+1}$ diverge perché $\frac n{n+1}\to1\ne0$. Attenzione al verso: $a_n\to0$ NON basta per la convergenza (l'armonica lo dimostra).</div>
+</div>
+
+<h3>I criteri di convergenza (per serie a termini positivi)</h3>
+<div class="def"><div class="t">Criterio del confronto</div>
+Se $0\le a_n\le b_n$: la convergenza di $\sum b_n$ trascina quella di $\sum a_n$; la divergenza di $\sum a_n$ trascina quella di $\sum b_n$. (Più piccolo di un convergente ⇒ converge; più grande di un divergente ⇒ diverge.)
+</div>
+<div class="def"><div class="t">Confronto asintotico (il più usato in pratica)</div>
+Se $\dfrac{a_n}{b_n}\to L$ con $0&lt;L&lt;+\infty$, le due serie hanno lo stesso destino. In pratica: <b>trova a cosa "somiglia" $a_n$ per $n$ grande</b> tenendo solo i termini dominanti, e confronta con $1/n^\alpha$.
+</div>
+<div class="ex"><div class="t">Esempio col confronto asintotico</div>
+$\sum\dfrac{n+3}{n^3+n}$. Per $n$ grande sopra domina $n$, sotto $n^3$: somiglia a $\dfrac{n}{n^3}=\dfrac1{n^2}$.
+<div class="step">Verifica: $\dfrac{(n+3)/(n^3+n)}{1/n^2}=\dfrac{n^3+3n^2}{n^3+n}\to1$: finito e non nullo.</div>
+<div class="step">$\sum\frac1{n^2}$ converge ($\alpha=2&gt;1$) ⇒ la serie <b>converge</b>.</div>
+</div>
+<div class="def"><div class="t">Criterio del rapporto e della radice</div>
+Calcola $\lim\dfrac{a_{n+1}}{a_n}=L$ (rapporto) oppure $\lim\sqrt[n]{a_n}=L$ (radice):<br>
+$L&lt;1$ converge, $L&gt;1$ diverge, $L=1$ <b>il criterio non decide</b> (prova con il confronto).<br>
+Quando usarli: rapporto se ci sono fattoriali o esponenziali ($n!$, $2^n$); radice se c'è qualcosa "tutto elevato alla $n$".
+</div>
+<div class="ex"><div class="t">Esempio col rapporto</div>
+$\sum\dfrac{2^n}{n!}$: $\ \dfrac{a_{n+1}}{a_n}=\dfrac{2^{n+1}}{(n+1)!}\cdot\dfrac{n!}{2^n}=\dfrac{2}{n+1}\to0&lt;1$: <b>converge</b>. (Il fattoriale stritola l'esponenziale: la gerarchia degli infiniti, di nuovo.)
+</div>
+
+<h3>Serie a segni alterni: Leibniz</h3>
+<div class="teo"><div class="t">Criterio di Leibniz</div>
+$\sum(-1)^{n+1}b_n$ con $b_n\ge0$ converge se $b_n$ è decrescente e $b_n\to0$.
+<div class="why">I salti su e giù si accorciano sempre: le somme parziali si stringono a ventaglio su un valore (guardalo nel widget). Così $\sum\frac{(-1)^{n+1}}{n}$ converge (a $\ln2$) anche se l'armonica, senza segni, diverge: si dice che converge <em>semplicemente</em> ma non <em>assolutamente</em>.</div>
+</div>
+
+<div class="quiz"><div class="qt">Controllo rapido</div>
+<div class="q" data-ans="2"><div class="qq">$\sum\dfrac{1}{\sqrt n}$</div>
+<div class="opts"><button>converge (i termini vanno a 0)</button><button>converge per Leibniz</button><button>diverge</button></div>
+<div class="fb">È $1/n^\alpha$ con $\alpha=\frac12\le1$: diverge. I termini a 0 non bastano mai da soli.</div></div>
+<div class="q" data-ans="0"><div class="qq">$\sum\dfrac{n!}{100^n}$</div>
+<div class="opts"><button>diverge</button><button>converge</button><button>è indeterminata</button></div>
+<div class="fb">Rapporto: $\frac{n+1}{100}\to+\infty&gt;1$. Il fattoriale batte l'esponenziale, i termini esplodono.</div></div>
+<div class="q" data-ans="1"><div class="qq">$\sum\dfrac{3n^2+1}{n^4+n}$: il confronto giusto è con</div>
+<div class="opts"><button>$\dfrac1n$</button><button>$\dfrac1{n^2}$</button><button>$\dfrac1{n^4}$</button></div>
+<div class="fb">Termini dominanti: $\frac{3n^2}{n^4}=\frac3{n^2}$. Converge, perché $\alpha=2&gt;1$.</div></div>
+<div class="mark"><button data-cap="serie">Ho capito questo capitolo</button></div>
 </div>
 </section>
 <!-- ============ 4 LIMITI ============ -->
@@ -951,6 +1336,159 @@ Sembra non un prodotto, ma è $\ln x\cdot1$. Prendo $f=\ln x$, $g'=1$ ($g=x$).
 <div class="mark"><button data-cap="studio">Ho capito questo capitolo</button></div>
 </div>
 </section>
+
+<!-- ============ VOLUMI E IMPROPRI ============ -->
+<section class="cap" id="volumi">
+<h2>Aree, volumi e integrali impropri</h2>
+<p class="lead">L'integrale al lavoro: aree tra curve, volumi di solidi ottenuti facendo ruotare un grafico, e integrali su intervalli infiniti.</p>
+<div class="pre"><b>Cosa devi già sapere:</b> il capitolo sugli integrali (teorema fondamentale e tecniche) e i limiti all'infinito.</div>
+
+<h3>Aree tra curve: chi sta sopra meno chi sta sotto</h3>
+<div class="def"><div class="t">Area tra due grafici</div>
+$$\text{Area}=\int_a^b\big(f(x)-g(x)\big)\,dx\qquad\text{con }f\ge g\text{ su }[a,b]$$
+Passi pratici: (1) trova dove le curve si intersecano risolvendo $f(x)=g(x)$: sono gli estremi; (2) capisci chi sta sopra (basta provare un punto in mezzo); (3) integra la differenza. Se si scambiano di posto, spezza l'integrale.
+</div>
+<div class="ex"><div class="t">Esempio classico</div>
+Area tra $y=x$ e $y=x^2$.
+<div class="step">Intersezioni: $x=x^2\Rightarrow x=0,1$. In mezzo (es. $x=\frac12$): la retta ($\frac12$) sta sopra la parabola ($\frac14$).</div>
+<div class="step">$\int_0^1(x-x^2)dx=\Big[\frac{x^2}2-\frac{x^3}3\Big]_0^1=\frac12-\frac13=\frac16$.</div>
+</div>
+
+<h3>Volumi di rotazione: il grafico che diventa un solido</h3>
+<div class="idea"><div class="tag">Immagine mentale</div>Prendi il grafico di $f$ tra $a$ e $b$ e fallo girare attorno all'asse $x$, come al tornio. Ottieni un solido. Per misurarlo, affettalo perpendicolarmente all'asse: ogni fetta è un <b>disco</b> di raggio $f(x)$ e spessore sottile, quindi di volume $\pi f(x)^2\,dx$. Somma tutte le fette: un integrale.</div>
+<div class="def"><div class="t">Volume del solido di rotazione (attorno all'asse x)</div>
+$$V=\pi\int_a^b f(x)^2\,dx$$
+</div>
+<div class="widget">
+<div class="wt">Il metodo dei dischi</div>
+<div class="wd">La curva ruota attorno all'asse x (vedi la sagoma specchiata). Aumenta il numero di dischi: la somma dei loro volumi tende al volume esatto, esattamente come i rettangoli di Riemann tendevano all'area.</div>
+<canvas id="w-vol"></canvas>
+<div class="ctrl">
+<label>Solido <select id="vol-sel"><option value="sqrt">f = √x su [0,2] (paraboloide)</option><option value="cone">f = x/2 su [0,2] (cono)</option><option value="sfera">f = √(1−x²) su [−1,1] (sfera)</option></select></label>
+<label>dischi <input type="range" id="vol-n" min="2" max="60" step="1" value="8"><span class="val" id="vol-nv">8</span></label>
+</div>
+<div class="readout" id="vol-out"></div>
+</div>
+<div class="ex"><div class="t">Esempio d'esame: il volume della sfera, dimostrato</div>
+La semicirconferenza $f(x)=\sqrt{r^2-x^2}$ su $[-r,r]$ ruotata genera la sfera di raggio $r$.
+<div class="step">$V=\pi\int_{-r}^{r}(r^2-x^2)dx=\pi\Big[r^2x-\frac{x^3}3\Big]_{-r}^{r}=\pi\Big(\big(r^3-\frac{r^3}3\big)-\big(-r^3+\frac{r^3}3\big)\Big)=\frac43\pi r^3$.</div>
+La formula "imparata a memoria" alle superiori, qui esce da un integrale di tre righe.
+</div>
+
+<h3>Integrali impropri: quando l'intervallo (o la funzione) è infinito</h3>
+<p>Due situazioni: l'intervallo è illimitato ($\int_1^{+\infty}$), oppure la funzione esplode a un estremo ($\int_0^1\frac1{\sqrt x}dx$: infinita vicino a 0). La ricetta è la stessa: <b>taglia, integra, poi fai il limite del taglio</b>.</p>
+<div class="def"><div class="t">Definizione</div>
+$$\int_a^{+\infty}f(x)\,dx=\lim_{M\to+\infty}\int_a^{M}f(x)\,dx$$
+Se il limite è finito l'integrale <b>converge</b>, altrimenti <b>diverge</b>. Analogamente per l'estremo dove la funzione esplode.
+</div>
+<div class="teo"><div class="t">La famiglia campione: $\dfrac1{x^\alpha}$</div>
+$$\int_1^{+\infty}\frac{dx}{x^\alpha}\ \text{converge}\iff\alpha&gt;1\qquad\qquad\int_0^1\frac{dx}{x^\alpha}\ \text{converge}\iff\alpha&lt;1$$
+<div class="why">Da memorizzare con la logica: all'infinito serve che la funzione scenda <em>abbastanza in fretta</em> ($\alpha$ grande); vicino a zero serve che esploda <em>abbastanza piano</em> ($\alpha$ piccolo). Il caso $\alpha=1$ (cioè $\ln x$) diverge da entrambe le parti. Nota la simmetria perfetta con la serie armonica generalizzata.</div>
+</div>
+<div class="ex"><div class="t">Esempi svolti</div>
+<div class="step">$\int_1^{+\infty}\frac{dx}{x^2}=\lim_M\big[-\frac1x\big]_1^M=\lim_M\big(1-\frac1M\big)=1$: converge. Una regione infinitamente lunga con area 1.</div>
+<div class="step">$\int_0^1\frac{dx}{\sqrt x}=\lim_{t\to0^+}\big[2\sqrt x\big]_t^1=2$: converge ($\alpha=\frac12&lt;1$).</div>
+<div class="step">$\int_1^{+\infty}\frac{dx}{x}=\lim_M\ln M=+\infty$: diverge, per un soffio.</div>
+</div>
+<div class="def"><div class="t">Criterio del confronto (anche qui)</div>
+Come per le serie: se $0\le f(x)\le g(x)$, la convergenza di $\int g$ trascina quella di $\int f$. In pratica: per $x$ grande trova a quale $\frac1{x^\alpha}$ somiglia la funzione. Es.: $\int_1^{+\infty}\frac{dx}{x^2+e^{-x}}$ converge perché per $x$ grande somiglia a $\frac1{x^2}$.
+</div>
+
+<div class="quiz"><div class="qt">Controllo rapido</div>
+<div class="q" data-ans="1"><div class="qq">$\int_1^{+\infty}\dfrac{dx}{\sqrt x}$</div>
+<div class="opts"><button>converge</button><button>diverge</button><button>vale 2</button></div>
+<div class="fb">All'infinito serve $\alpha&gt;1$; qui $\alpha=\frac12$: scende troppo piano, area infinita.</div></div>
+<div class="q" data-ans="0"><div class="qq">Il volume di $f(x)=2$ (costante) su $[0,3]$ ruotata attorno all'asse x:</div>
+<div class="opts"><button>$12\pi$ (un cilindro)</button><button>$6\pi$</button><button>$4\pi$</button></div>
+<div class="fb">$\pi\int_0^3 4\,dx=12\pi$: raggio 2, altezza 3, proprio $\pi r^2h$. La formula generale contiene quelle note.</div></div>
+<div class="mark"><button data-cap="volumi">Ho capito questo capitolo</button></div>
+</div>
+</section>
+<!-- ============ FORMULARIO ============ -->
+<section class="cap" id="formulario">
+<h2>Formulario</h2>
+<p class="lead">Tutto il corso in una pagina, senza spiegazioni: da ripassare il giorno prima dell'esame.</p>
+
+<h3>Limiti notevoli</h3>
+$$\lim_{x\to0}\frac{\sin x}{x}=1\quad \lim_{x\to0}\frac{1-\cos x}{x^2}=\frac12\quad \lim_{x\to0}\frac{e^x-1}{x}=1\quad \lim_{x\to0}\frac{\ln(1+x)}{x}=1\quad \lim_{x\to\pm\infty}\Big(1+\frac1x\Big)^{x}=e\quad \lim_{x\to0}\frac{(1+x)^\alpha-1}{x}=\alpha$$
+<p>Gerarchia degli infiniti: $\ \ln x\ll x^a\ll b^x\ll x!\ll x^x$ ($a&gt;0$, $b&gt;1$).</p>
+
+<h3>Derivate</h3>
+<table class="tab">
+<tr><td>$(x^n)'=nx^{n-1}$</td><td>$(e^x)'=e^x$</td><td>$(\ln x)'=\frac1x$</td><td>$(a^x)'=a^x\ln a$</td></tr>
+<tr><td>$(\sin x)'=\cos x$</td><td>$(\cos x)'=-\sin x$</td><td>$(\tan x)'=1+\tan^2x$</td><td>$(\sqrt x)'=\frac1{2\sqrt x}$</td></tr>
+<tr><td>$(\arctan x)'=\frac1{1+x^2}$</td><td>$(\arcsin x)'=\frac1{\sqrt{1-x^2}}$</td><td>$(\frac1x)'=-\frac1{x^2}$</td><td>$(|x|)'=\mathrm{segno}(x)$, non der. in 0</td></tr>
+</table>
+<p>Regole: $(fg)'=f'g+fg'$; $\ \big(\frac fg\big)'=\frac{f'g-fg'}{g^2}$; $\ \big(f(g)\big)'=f'(g)\cdot g'$.</p>
+
+<h3>Sviluppi di Taylor (in 0)</h3>
+$$\sin x=x-\frac{x^3}{6}+\frac{x^5}{120}+o(x^5)\qquad \cos x=1-\frac{x^2}{2}+\frac{x^4}{24}+o(x^4)\qquad e^x=1+x+\frac{x^2}{2}+\frac{x^3}{6}+o(x^3)$$
+$$\ln(1+x)=x-\frac{x^2}{2}+\frac{x^3}{3}+o(x^3)\qquad (1+x)^\alpha=1+\alpha x+\frac{\alpha(\alpha-1)}{2}x^2+o(x^2)\qquad \tan x=x+\frac{x^3}{3}+o(x^3)\qquad \arctan x=x-\frac{x^3}{3}+o(x^3)$$
+
+<h3>Integrali immediati</h3>
+<table class="tab">
+<tr><td>$\int x^n dx=\frac{x^{n+1}}{n+1}+c$</td><td>$\int\frac{dx}x=\ln|x|+c$</td><td>$\int e^x dx=e^x+c$</td><td>$\int\frac{g'}{g}dx=\ln|g|+c$</td></tr>
+<tr><td>$\int\sin x\,dx=-\cos x+c$</td><td>$\int\cos x\,dx=\sin x+c$</td><td>$\int\frac{dx}{1+x^2}=\arctan x+c$</td><td>$\int\frac{dx}{\sqrt{1-x^2}}=\arcsin x+c$</td></tr>
+</table>
+<p>Per parti: $\int fg'=fg-\int f'g$. &nbsp; Volume di rotazione: $V=\pi\int_a^b f^2dx$. &nbsp; Impropri campione: $\int_1^{\infty}\frac{dx}{x^\alpha}$ conv. $\iff\alpha&gt;1$; $\ \int_0^1\frac{dx}{x^\alpha}$ conv. $\iff\alpha&lt;1$.</p>
+
+<h3>Serie</h3>
+<p>Geometrica: $\sum q^n=\frac1{1-q}$ se $|q|&lt;1$. Armonica generalizzata: $\sum\frac1{n^\alpha}$ conv. $\iff\alpha&gt;1$. Condizione necessaria: $a_n\to0$. Rapporto/radice: limite $&lt;1$ conv., $&gt;1$ div., $=1$ non decide. Leibniz: $\sum(-1)^n b_n$ conv. se $b_n\searrow0$.</p>
+
+<h3>Teoremi da saper enunciare</h3>
+<p>Zeri (Bolzano) · Valori intermedi · Weierstrass · Fermat · Rolle · Lagrange · De l'Hôpital · Teorema fondamentale del calcolo integrale · Principio d'induzione. Per ciascuno: ipotesi complete (continuità? derivabilità? intervallo chiuso?), tesi, e un controesempio quando manca un'ipotesi.</p>
+<div class="mark"><button data-cap="formulario">Ripassato</button></div>
+</section>
+
+<!-- ============ ESAME ============ -->
+<section class="cap" id="esame">
+<h2>Simulazione d'esame</h2>
+<p class="lead">Tre tracce in stile compito, da svolgere su carta prima di aprire le soluzioni, e un test finale a punteggio su tutto il programma.</p>
+<div class="pre"><b>Come usare questa sezione:</b> cronometro a 30 minuti per traccia, carta e penna, soluzioni chiuse. Aprile solo a risposta scritta.</div>
+
+<h3>Traccia 1 — Limite con Taylor + serie</h3>
+<p><b>(a)</b> Calcolare $\displaystyle\lim_{x\to0}\frac{e^{x^2}-\cos x}{x^2}$. &nbsp; <b>(b)</b> Studiare il carattere di $\displaystyle\sum_{n=1}^{\infty}\frac{n+1}{n^3+2n}$.</p>
+<details class="sol"><summary>Mostra svolgimento</summary><div class="body">
+<b>(a)</b> Il denominatore è $x^2$: sviluppo al secondo ordine. $e^{x^2}=1+x^2+o(x^2)$ (sviluppo di $e^t$ con $t=x^2$), $\cos x=1-\frac{x^2}2+o(x^2)$. Numeratore: $1+x^2-1+\frac{x^2}2+o(x^2)=\frac32x^2+o(x^2)$. Limite: $\boxed{\tfrac32}$.<br><br>
+<b>(b)</b> Termini dominanti: $\frac{n}{n^3}=\frac1{n^2}$. Confronto asintotico: $\frac{(n+1)/(n^3+2n)}{1/n^2}=\frac{n^3+n^2}{n^3+2n}\to1$, finito e non nullo. $\sum\frac1{n^2}$ converge ($\alpha=2&gt;1$) ⇒ la serie <b>converge</b>.
+</div></details>
+
+<h3>Traccia 2 — Studio di funzione</h3>
+<p>Studiare $f(x)=x\,e^{-x}$ e tracciarne il grafico (dominio, segno, limiti e asintoti, monotonia con massimi/minimi, concavità e flessi).</p>
+<details class="sol"><summary>Mostra svolgimento</summary><div class="body">
+<b>Dominio:</b> $\mathbb{R}$. <b>Segno:</b> $e^{-x}&gt;0$ sempre ⇒ segno di $x$: negativa per $x&lt;0$, nulla in 0, positiva per $x&gt;0$.<br>
+<b>Limiti:</b> $x\to-\infty$: $x\to-\infty$ e $e^{-x}\to+\infty$ ⇒ $f\to-\infty$ (nessun asintoto obliquo: $\frac fx=e^{-x}\to+\infty$). $x\to+\infty$: forma $\infty\cdot0$; riscrivo $\frac{x}{e^{x}}$ e per gerarchia degli infiniti (o De l'Hôpital) $\to0^+$: <b>asintoto orizzontale $y=0$</b> a destra.<br>
+<b>Derivata:</b> $f'=e^{-x}-xe^{-x}=e^{-x}(1-x)$. Positiva per $x&lt;1$, negativa per $x&gt;1$: cresce poi decresce ⇒ <b>massimo assoluto in $x=1$</b>, $f(1)=\frac1e\approx0{,}37$.<br>
+<b>Derivata seconda:</b> $f''=-e^{-x}(1-x)+e^{-x}(-1)=e^{-x}(x-2)$. Concava per $x&lt;2$, convessa per $x&gt;2$: <b>flesso in $x=2$</b>, $f(2)=\frac2{e^2}$.<br>
+<b>Grafico:</b> sale da $-\infty$ passando per l'origine, culmina in $(1,\frac1e)$, scende ammorbidendosi e si schiaccia sull'asse $x$ da sopra, cambiando concavità in $x=2$.
+</div></details>
+
+<h3>Traccia 3 — Integrali</h3>
+<p><b>(a)</b> Calcolare $\displaystyle\int_0^{1} x\,e^{2x}\,dx$. &nbsp; <b>(b)</b> Stabilire se $\displaystyle\int_2^{+\infty}\frac{dx}{x\ln^2 x}$ converge, e in caso calcolarlo.</p>
+<details class="sol"><summary>Mostra svolgimento</summary><div class="body">
+<b>(a)</b> Per parti con $f=x$, $g'=e^{2x}$ ($g=\frac{e^{2x}}2$): $\ \big[\frac{x e^{2x}}2\big]_0^1-\int_0^1\frac{e^{2x}}2dx=\frac{e^2}2-\big[\frac{e^{2x}}4\big]_0^1=\frac{e^2}2-\frac{e^2}4+\frac14=\boxed{\frac{e^2+1}{4}}$.<br><br>
+<b>(b)</b> Sostituzione $t=\ln x$, $dt=\frac{dx}x$: $\int\frac{dt}{t^2}=-\frac1t=-\frac1{\ln x}$. Quindi $\lim_{M\to\infty}\big[-\frac1{\ln x}\big]_2^M=0+\frac1{\ln2}=\boxed{\frac1{\ln2}}$: <b>converge</b>.
+</div></details>
+
+<h3>Test finale a punteggio</h3>
+<p>Dodici domande su tutto il programma, mescolate. Rispondi a tutte, poi calcola il punteggio: conta solo la <b>prima</b> risposta data a ogni domanda, come all'esame.</p>
+<div class="quiz" id="finalquiz"><div class="qt">Test finale</div>
+<div class="q" data-ans="1"><div class="qq">1. $\sup$ di $(0,3)$:</div><div class="opts"><button>non esiste</button><button>$3$</button><button>$3$, ed è il massimo</button></div><div class="fb">3 è il più piccolo maggiorante, ma non appartiene all'insieme: sup senza massimo.</div></div>
+<div class="q" data-ans="0"><div class="qq">2. $|1-i|$:</div><div class="opts"><button>$\sqrt2$</button><button>$0$</button><button>$2$</button></div><div class="fb">$\sqrt{1^2+(-1)^2}=\sqrt2$.</div></div>
+<div class="q" data-ans="2"><div class="qq">3. $\lim_{n\to\infty}\dfrac{2^n}{n^{50}}$:</div><div class="opts"><button>$0$</button><button>$1$</button><button>$+\infty$</button></div><div class="fb">L'esponenziale batte ogni potenza.</div></div>
+<div class="q" data-ans="1"><div class="qq">4. $\lim_{x\to0}\dfrac{\ln(1+4x)}{x}$:</div><div class="opts"><button>$1$</button><button>$4$</button><button>$0$</button></div><div class="fb">$\frac{\ln(1+4x)}{4x}\cdot4\to4$.</div></div>
+<div class="q" data-ans="0"><div class="qq">5. $f$ continua su $[a,b]$ con $f(a)f(b)&lt;0$: allora</div><div class="opts"><button>esiste $c$ con $f(c)=0$</button><button>$f$ è monotona</button><button>$f$ ha un solo zero</button></div><div class="fb">Teorema degli zeri. Gli zeri possono anche essere più di uno.</div></div>
+<div class="q" data-ans="2"><div class="qq">6. $\big(e^{\sin x}\big)'$:</div><div class="opts"><button>$e^{\sin x}$</button><button>$e^{\cos x}$</button><button>$e^{\sin x}\cos x$</button></div><div class="fb">Catena: esterna $e^t$, interna $\sin x$.</div></div>
+<div class="q" data-ans="1"><div class="qq">7. $\lim_{x\to0}\dfrac{\sin x-x}{x^3}$:</div><div class="opts"><button>$0$</button><button>$-\frac16$</button><button>$\frac16$</button></div><div class="fb">$\sin x=x-\frac{x^3}6+o(x^3)$: resta $-\frac{x^3}6$ su $x^3$.</div></div>
+<div class="q" data-ans="0"><div class="qq">8. $f'(x)&gt;0$ su $(a,b)$ implica che su $(a,b)$ $f$ è:</div><div class="opts"><button>crescente</button><button>positiva</button><button>convessa</button></div><div class="fb">Il segno di $f'$ parla della crescenza, non del segno di $f$ (quello di $f''$ della convessità).</div></div>
+<div class="q" data-ans="2"><div class="qq">9. $\int_0^{\pi}\sin x\,dx$:</div><div class="opts"><button>$0$</button><button>$\pi$</button><button>$2$</button></div><div class="fb">$[-\cos x]_0^\pi=-(-1)+1=2$.</div></div>
+<div class="q" data-ans="1"><div class="qq">10. $\sum\dfrac1{n^{3/2}}$:</div><div class="opts"><button>diverge</button><button>converge</button><button>indeterminata</button></div><div class="fb">$\alpha=\frac32&gt;1$.</div></div>
+<div class="q" data-ans="0"><div class="qq">11. $\int_0^1\dfrac{dx}{x^{2}}$:</div><div class="opts"><button>diverge</button><button>vale $1$</button><button>vale $-1$</button></div><div class="fb">Vicino a 0 serve $\alpha&lt;1$; qui $\alpha=2$: esplode troppo forte.</div></div>
+<div class="q" data-ans="2"><div class="qq">12. Le rette $y=2x+1$ e $y=-\frac12x+3$ sono:</div><div class="opts"><button>parallele</button><button>coincidenti</button><button>perpendicolari</button></div><div class="fb">$2\cdot(-\frac12)=-1$.</div></div>
+<div class="mark" style="display:flex;gap:10px;align-items:center;flex-wrap:wrap"><button id="fq-score" style="border-color:var(--blue);color:var(--blue)">Calcola punteggio</button><span id="fq-out" style="font-family:var(--sans);font-size:14.5px"></span></div>
+<div class="mark"><button data-cap="esame">Simulazione completata</button></div>
+</div>
+</section>
 </main>
 </div>
 <script>
@@ -1106,7 +1644,7 @@ const F={sin:{f:Math.sin,c:n=>{const r=[];for(let k=0;k<=n;k++)r.push(k%2===0?0:
  ln:{f:x=>x>-1?Math.log(1+x):NaN,c:n=>{const r=[0];for(let k=1;k<=n;k++)r.push((k%2===1?1:-1)/k);return r;},n:'ln(1+x)',note:' Nota: lo sviluppo funziona solo per −1 &lt; x ≤ 1. Fuori da lì diverge, per quanti termini aggiungi.'},
  atan:{f:Math.atan,c:n=>{const r=[];for(let k=0;k<=n;k++)r.push(k%2===0?0:(k%4===1?1:-1)/k);return r;},n:'arctan x',note:' Nota: converge solo per |x| ≤ 1.'}};
 function fact(k){let r=1;for(let i=2;i<=k;i++)r*=i;return r;}
-const term=(k,c)=>{if(c===0)return null;const s=c<0?'− ':'+ ';const a=Math.abs(c);const xs=k===1?'x':'x^'+k;if(k===0)return s+String(a);if(a===1)return s+xs;if(Math.abs(Math.round(1/a)-1/a)<1e-9)return s+xs+'/'+Math.round(1/a);return s+a.toFixed(3)+xs;};
+const term=(k,c)=>{if(c===0)return null;const s=c<0?'− ':'+ ';const a=Math.abs(c);const co=a===1?'':Number.isInteger(1/a)?'1/'+Math.round(1/a):a.toFixed(3);return s+(k===0?String(a):co+(k===1?'x':'x^'+k));};
 const draw=()=>{const k=$('tay-sel').value,n=+$('tay-n').value;$('tay-nv').textContent=n;const o=F[k];p.clear();p.axes();p.fn(o.f,INK,2.6);
   const co=o.c(n);const P=x=>{let s=0;for(let i=0;i<=n;i++)s+=co[i]*Math.pow(x,i);return s;};p.fn(P,ORANGE,2.2);
   let poly=[];co.forEach((c,i)=>{const t=term(i,c);if(t)poly.push(t);});let str=poly.join(' ').replace(/^\+ /,'');if(!str)str='0';
@@ -1136,13 +1674,109 @@ const draw=()=>{const on={};document.querySelectorAll('.stu-chk').forEach(c=>on[
 p.redraw=draw;document.querySelectorAll('.stu-chk').forEach(c=>c.addEventListener('change',draw));draw();
 document.querySelectorAll('#studio-steps .s>button').forEach(b=>b.addEventListener('click',()=>b.parentElement.classList.toggle('open')));})();
 
+// ---------- Complessi ----------
+(()=>{const p=new Plot('w-cpx',[-4,4],[-4,4]);
+const draw=()=>{const a=+$('cpx-a').value,b=+$('cpx-b').value,n=+$('cpx-n').value;
+ $('cpx-av').textContent=a.toFixed(2);$('cpx-bv').textContent=b.toFixed(2);$('cpx-nv').textContent=n;
+ p.clear();p.axes();
+ const rho=Math.hypot(a,b),th=Math.atan2(b,a);
+ let pa=1,pb=0;const pts=[];
+ for(let k=1;k<=n;k++){const na=pa*a-pb*b,nb=pa*b+pb*a;pa=na;pb=nb;pts.push([pa,pb]);}
+ for(let k=0;k<pts.length-1;k++)p.line(pts[k][0],pts[k][1],pts[k+1][0],pts[k+1][1],"#C9A227",1.2,[3,3]);
+ pts.forEach((q,k)=>{p.pt(q[0],q[1],k===0?TEAL:ORANGE,k===0?6:4);if(k>0&&Math.abs(q[0])<4&&Math.abs(q[1])<4)p.text('z^'+(k+1),q[0],q[1],ORANGE,"11px Inter");});
+ p.line(0,0,a,b,TEAL,2);p.text('z',a,b,TEAL);
+ $('cpx-out').innerHTML=`z = ${a.toFixed(2)} ${b>=0?'+':'−'} ${Math.abs(b).toFixed(2)}i · modulo |z| = <b>${rho.toFixed(3)}</b> · argomento θ = <b>${th.toFixed(3)} rad</b> (${(th*180/Math.PI).toFixed(1)}°). ${n>1?(rho>1?'|z| &gt; 1: le potenze si allontanano a spirale.':rho<1?'|z| &lt; 1: le potenze si avvitano verso l\'origine.':'|z| = 1: le potenze girano sulla circonferenza unitaria.'):'Aumenta n per vedere le potenze.'}`;};
+p.redraw=draw;['cpx-a','cpx-b','cpx-n'].forEach(i=>on(i,'input',draw));draw();})();
+
+// ---------- Parabola ----------
+(()=>{const p=new Plot('w-par',[-6,6],[-8,8]);
+const draw=()=>{let a=+$('par-a').value;const b=+$('par-b').value,c0=+$('par-c').value;
+ $('par-av').textContent=a.toFixed(1);$('par-bv').textContent=b.toFixed(1);$('par-cv').textContent=c0.toFixed(1);
+ p.clear();p.axes();
+ if(Math.abs(a)<0.05){p.fn(x=>b*x+c0,TEAL);$('par-out').innerHTML='Con a ≈ 0 non è più una parabola: è la retta bx + c.';return;}
+ p.fn(x=>a*x*x+b*x+c0,TEAL,2.4);
+ const D=b*b-4*a*c0;let s=`Δ = b² − 4ac = <b>${D.toFixed(2)}</b>. `;
+ if(D>0.001){const x1=(-b-Math.sqrt(D))/(2*a),x2=(-b+Math.sqrt(D))/(2*a);const r1=Math.min(x1,x2),r2=Math.max(x1,x2);
+  p.pt(r1,0,RED,5);p.pt(r2,0,RED,5);
+  s+=`Due radici: x = ${r1.toFixed(2)} e x = ${r2.toFixed(2)}. ${a>0?`Parabola a U: <b>positiva fuori</b> dalle radici, <b>negativa tra</b> ${r1.toFixed(2)} e ${r2.toFixed(2)}.`:`Parabola a ∩: <b>positiva tra</b> le radici, <b>negativa fuori</b>.`}`;}
+ else if(D>-0.001){const x0=-b/(2*a);p.pt(x0,0,RED,5);s+=`Radice doppia x = ${x0.toFixed(2)}: la parabola tocca l'asse senza attraversarlo. ${a>0?'Sempre ≥ 0.':'Sempre ≤ 0.'}`;}
+ else s+=`Nessuna radice reale: la parabola non tocca l'asse. ${a>0?'<b>Sempre positiva</b>.':'<b>Sempre negativa</b>.'} (Le radici sono complesse coniugate.)`;
+ $('par-out').innerHTML=s;};
+p.redraw=draw;['par-a','par-b','par-c'].forEach(i=>on(i,'input',draw));draw();})();
+
+// ---------- Vettori ----------
+(()=>{const p=new Plot('w-vec',[-4,6],[-4,6]);
+const arrow=(x,y,col,lab,ox=0,oy=0)=>{p.line(ox,oy,ox+x,oy+y,col,2.5);
+ const L=Math.hypot(x,y);if(L>0.01){const ux=x/L,uy=y/L,hx=ox+x,hy=oy+y;
+ p.line(hx,hy,hx-0.28*ux+0.16*uy,hy-0.28*uy-0.16*ux,col,2.5);p.line(hx,hy,hx-0.28*ux-0.16*uy,hy-0.28*uy+0.16*ux,col,2.5);}
+ p.text(lab,ox+x,oy+y,col,"13px Inter");};
+const draw=()=>{const ux=+$('vec-ux').value,uy=+$('vec-uy').value,vx=+$('vec-vx').value,vy=+$('vec-vy').value;
+ $('vec-uxv').textContent=ux.toFixed(1);$('vec-uyv').textContent=uy.toFixed(1);$('vec-vxv').textContent=vx.toFixed(1);$('vec-vyv').textContent=vy.toFixed(1);
+ p.clear();p.axes();
+ p.line(ux,uy,ux+vx,uy+vy,"#B8C0CC",1.2,[4,4]);p.line(vx,vy,ux+vx,uy+vy,"#B8C0CC",1.2,[4,4]);
+ arrow(ux,uy,BLUE,'u');arrow(vx,vy,ORANGE,'v');arrow(ux+vx,uy+vy,GREEN,'u+v');
+ const dot=ux*vx+uy*vy,mu=Math.hypot(ux,uy),mv=Math.hypot(vx,vy);
+ let ang='';if(mu>0.01&&mv>0.01){const c=Math.max(-1,Math.min(1,dot/(mu*mv)));ang=` · angolo ≈ ${(Math.acos(c)*180/Math.PI).toFixed(1)}°`;}
+ $('vec-out').innerHTML=`u + v = (${(ux+vx).toFixed(1)}, ${(uy+vy).toFixed(1)}) · |u| = ${mu.toFixed(2)}, |v| = ${mv.toFixed(2)} · prodotto scalare u·v = <b>${dot.toFixed(2)}</b>${ang}. ${Math.abs(dot)<0.08&&mu>0.1&&mv>0.1?'<b style="color:#2E9E7C">Perpendicolari!</b>':dot>0?'Angolo acuto: puntano "dalla stessa parte".':'Angolo ottuso: puntano "in direzioni opposte".'}`;};
+p.redraw=draw;['vec-ux','vec-uy','vec-vx','vec-vy'].forEach(i=>on(i,'input',draw));draw();})();
+
+// ---------- Rette ----------
+(()=>{const p=new Plot('w-lin',[-5,5],[-5,5]);
+const draw=()=>{const m1=+$('lin-m1').value,q1=+$('lin-q1').value,m2=+$('lin-m2').value,q2=+$('lin-q2').value;
+ $('lin-m1v').textContent=m1.toFixed(1);$('lin-q1v').textContent=q1.toFixed(1);$('lin-m2v').textContent=m2.toFixed(1);$('lin-q2v').textContent=q2.toFixed(1);
+ p.clear();p.axes();p.fn(x=>m1*x+q1,BLUE,2.2);p.fn(x=>m2*x+q2,ORANGE,2.2);
+ let s;
+ if(Math.abs(m1-m2)<0.05){s=Math.abs(q1-q2)<0.05?'Stessa pendenza e stessa intercetta: <b>rette coincidenti</b> (infinite soluzioni del sistema).':'Stessa pendenza, intercette diverse: <b>parallele distinte</b>. Il sistema delle due equazioni non ha soluzioni.';}
+ else{const x=(q2-q1)/(m1-m2),y=m1*x+q1;p.pt(x,y,RED,6);
+  s=`Incidenti: si incontrano in <b>(${x.toFixed(2)}, ${y.toFixed(2)})</b>: l'unica soluzione del sistema. m₁·m₂ = ${(m1*m2).toFixed(2)}${Math.abs(m1*m2+1)<0.08?' ≈ −1: <b style="color:#2E9E7C">perpendicolari!</b>':'.'}`;}
+ $('lin-out').innerHTML=s;};
+p.redraw=draw;['lin-m1','lin-q1','lin-m2','lin-q2'].forEach(i=>on(i,'input',draw));draw();})();
+
+// ---------- Serie ----------
+(()=>{const p=new Plot('w-ser',[0,62],[0,5]);
+const S={geo:{a:n=>Math.pow(0.5,n),s0:1,L:2,note:'Somma esatta: 1/(1−½) = 2.'},
+ geo9:{a:n=>Math.pow(0.9,n),s0:1,L:10,note:'Somma esatta: 1/(1−0,9) = 10 (fuori scala: guarda quanto sale lenta).'},
+ p2:{a:n=>1/(n*n),s0:0,L:Math.PI*Math.PI/6,note:'Converge a π²/6 ≈ 1,645 (α = 2 &gt; 1).'},
+ arm:{a:n=>1/n,s0:0,L:null,note:'Diverge: cresce come ln N, senza tetto. Dopo 60 termini è solo ≈ 4,68, ma non si ferma mai.'},
+ alt:{a:n=>Math.pow(-1,n+1)/n,s0:0,L:Math.log(2),note:'Leibniz: i salti si stringono a ventaglio su ln 2 ≈ 0,693.'}};
+const draw=()=>{const k=$('ser-sel').value,N=+$('ser-n').value;$('ser-nv').textContent=N;const o=S[k];
+ p.clear();p.axes();
+ if(o.L!==null&&o.L<=5)p.line(0,o.L,62,o.L,TEAL,1.5,[6,4]);
+ let sum=o.s0;let last=sum;
+ for(let n=1;n<=60;n++){sum+=o.a(n);if(n<=N){const y=Math.min(sum,5);p.pt(n,y,n===N?ORANGE:INK,n===N?5:3);last=sum;}}
+ $('ser-out').innerHTML=`S<sub>${N}</sub> = <b>${last.toFixed(4)}</b>. ${o.note}`;};
+p.redraw=draw;on('ser-sel','change',draw);on('ser-n','input',draw);draw();})();
+
+// ---------- Volumi ----------
+(()=>{const p=new Plot('w-vol',[-1.5,2.5],[-1.8,1.8]);
+const F={sqrt:{f:x=>Math.sqrt(Math.max(0,x)),a:0,b:2,V:2*Math.PI,vn:'π∫₀²x dx = 2π ≈ 6,283'},
+ cone:{f:x=>x/2,a:0,b:2,V:Math.PI*2/3,vn:'π∫₀²x²/4 dx = 2π/3 ≈ 2,094 (il cono: ⅓πr²h)'},
+ sfera:{f:x=>Math.sqrt(Math.max(0,1-x*x)),a:-1,b:1,V:4*Math.PI/3,vn:'π∫(1−x²)dx = 4π/3 ≈ 4,189 (la sfera!)'}};
+const draw=()=>{const k=$('vol-sel').value,n=+$('vol-n').value;$('vol-nv').textContent=n;const o=F[k];
+ p.clear();p.axes();
+ const dx=(o.b-o.a)/n;let V=0;
+ for(let i=0;i<n;i++){const x=o.a+i*dx+dx/2;const r=o.f(x);V+=Math.PI*r*r*dx;
+  p.rect(o.a+i*dx,-r,o.a+(i+1)*dx,r,"rgba(14,124,123,.20)","rgba(14,124,123,.55)");}
+ p.fn(o.f,INK,2.4,null,[o.a,o.b]);p.fn(x=>-o.f(x),"#8892A0",1.6,[5,4],[o.a,o.b]);
+ $('vol-out').innerHTML=`Con ${n} dischi: V ≈ <b>${V.toFixed(4)}</b>. Valore esatto: ${o.vn}. Errore: ${Math.abs(V-o.V).toFixed(4)}.`;};
+p.redraw=draw;on('vol-sel','change',draw);on('vol-n','input',draw);draw();})();
+
+// ---------- Test finale a punteggio ----------
+(()=>{const btn=$('fq-score');if(!btn)return;btn.addEventListener('click',()=>{
+ const qs=[...document.querySelectorAll('#finalquiz .q')];
+ const answered=qs.filter(q=>q.dataset.res!==undefined);
+ if(answered.length<qs.length){$('fq-out').textContent=`Hai risposto a ${answered.length} domande su ${qs.length}: completa il test prima di calcolare il punteggio.`;return;}
+ const ok=qs.filter(q=>q.dataset.res==='1').length;
+ const v=Math.round(ok/qs.length*30);
+ $('fq-out').innerHTML=`<b>${ok}/${qs.length}</b> — in trentesimi: <b>${v}/30</b>. ${ok===qs.length?'Perfetto: sei pronto.':ok>=8?'Buona base: rivedi i capitoli delle domande sbagliate (il feedback sotto ogni domanda ti dice quale).':'Torna sui capitoli segnalati dagli errori e rifai il test: conta la prima risposta, come all\'esame.'}`;});})();
+
 // ---------- Quiz ----------
-document.querySelectorAll('.q').forEach(q=>{const ans=+q.dataset.ans;const btns=q.querySelectorAll('.opts button');btns.forEach((b,i)=>b.addEventListener('click',()=>{btns.forEach(x=>x.classList.remove('ok','no'));b.classList.add(i===ans?'ok':'no');if(i!==ans)btns[ans].classList.add('ok');q.querySelector('.fb').classList.add('show');}));});
+document.querySelectorAll('.q').forEach(q=>{const ans=+q.dataset.ans;const btns=q.querySelectorAll('.opts button');btns.forEach((b,i)=>b.addEventListener('click',()=>{if(q.dataset.res===undefined)q.dataset.res=(i===ans)?'1':'0';btns.forEach(x=>x.classList.remove('ok','no'));b.classList.add(i===ans?'ok':'no');if(i!==ans)btns[ans].classList.add('ok');q.querySelector('.fb').classList.add('show');}));});
 
 // ---------- Progresso ----------
 const done=new Set();
-document.querySelectorAll('.mark button').forEach(b=>b.addEventListener('click',()=>{const c=b.dataset.cap;if(done.has(c)){done.delete(c);b.classList.remove('on');b.textContent='Ho capito questo capitolo';}else{done.add(c);b.classList.add('on');b.textContent='Capitolo completato ✓';}
-  document.querySelector(`nav.side a[href="#${c}"]`).classList.toggle('done',done.has(c));$('prog').textContent=`${done.size} capitoli su 10 completati`;}));
+document.querySelectorAll('.mark button[data-cap]').forEach(b=>b.addEventListener('click',()=>{const c=b.dataset.cap;if(done.has(c)){done.delete(c);b.classList.remove('on');b.textContent='Ho capito questo capitolo';}else{done.add(c);b.classList.add('on');b.textContent='Capitolo completato ✓';}
+  document.querySelector(`nav.side a[href="#${c}"]`).classList.toggle('done',done.has(c));$('prog').textContent=`${done.size} capitoli su ${document.querySelectorAll('.mark button[data-cap]').length} completati`;}));
 
 // ---------- Scroll spy + menu ----------
 const links=[...document.querySelectorAll('nav.side a')];const secs=links.map(a=>document.querySelector(a.getAttribute('href')));

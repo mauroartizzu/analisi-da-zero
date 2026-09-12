@@ -1,6 +1,6 @@
 # Analisi da zero
 
-Un corso interattivo di Analisi Matematica 1 che non dà nulla per scontato: insiemi, funzioni, successioni, limiti, continuità, derivate, teoremi (Fermat, Rolle, Lagrange, De l'Hôpital), Taylor, integrali e studio di funzione completo.
+Un corso interattivo di Analisi Matematica 1 che non dà nulla per scontato: 19 capitoli: fondamenti (insiemi e relazioni, numeri complessi, equazioni e disequazioni, funzioni, induzione, vettori e matrici, rette e piani) e analisi (successioni, serie, limiti, continuità, derivate, teoremi e De l'Hôpital, Taylor, integrali, aree/volumi/impropri, studio di funzione), più formulario e simulazione d'esame con test a punteggio.
 
 Ogni capitolo ha spiegazione in parole povere, definizioni, esempi svolti, grafici interattivi e un quiz.
 
